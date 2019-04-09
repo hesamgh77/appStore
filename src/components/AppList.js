@@ -13,6 +13,8 @@ class AppList extends Component {
     render() {
         return (
             <FlatList 
+                style={styles.container}
+                columnWrapperStyle={styles.heasm}
                 data={this.state.allapp}
                 numColumns='3'
                 renderItem={({ item }) =>
@@ -22,4 +24,15 @@ class AppList extends Component {
         );
     }
 }
+const styles = {
+    container: {
+        flex: 1,
+        paddingTop: 22
+       },
+    hesam: {
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
+   
+};
 export default AppList;
