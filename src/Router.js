@@ -1,5 +1,4 @@
 import React from 'react';
-import { Image } from 'react-native';
 import { Scene, Router, Actions } from 'react-native-router-flux';
 import AppList from './components/AppList';
 import RegisterAppForm from './components/RegisterAppForm';
