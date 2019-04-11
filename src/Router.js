@@ -9,13 +9,13 @@ const RouterComponent = () => {
         <Router>
             <Scene key="root" >
                 <Scene
-                right
                 titleStyle={{ textAlign: 'center', flex: 1 }}
-                rightButtonImage={plusIcon}
-                //rightTitle="Add"
+                //rightButtonImage={plusIcon}
+                rightTitle="Add"
+                leftButtonImage={plusIcon}
                 onRight={() => Actions.appForm()}
                 key="HomePage"
-                component={AppList}
+                component={AppList}                
                 title="AppStore"
                 initial 
                 />
