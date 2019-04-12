@@ -1,12 +1,36 @@
 import React, { Component } from 'react';
-import { View, WebView } from 'react-native';
+import { TouchableOpacity, Text } from 'react-native';
 import { connect } from 'react-redux';
+import { DocumentPicker, DocumentPickerUtil } from 'react-native-document-picker';
 import { formUpdate, createForm } from '../actions';
-
 
 import { Card, CardSection, Input, Button } from './common';
 
 class RegisterAppForm extends Component {
+    handleChange() {
+        //Opening Document Picker
+        DocumentPicker.show(
+          {
+            filetype: [DocumentPickerUtil.allFiles()],
+            //All type of Files DocumentPickerUtil.allFiles()
+            //Only PDF DocumentPickerUtil.pdf()
+            //Audio DocumentPickerUtil.audio()
+            //Plain Text DocumentPickerUtil.plainText()
+          },
+          (error, res) => {
+            this.setState({ fileUri: res.uri });
+            this.setState({ fileType: res.type });
+            this.setState({ fileName: res.fileName });
+            this.setState({ fileSize: res.fileSize });
+     
+            console.log('res : ' + JSON.stringify(res));
+            console.log('URI : ' + res.uri);
+            console.log('Type : ' + res.type);
+            console.log('File Name : ' + res.fileName);
+            console.log('File Size : ' + res.fileSize);
+          }
+        );
+      }
     render() {
         return (
             <Card>
@@ -49,15 +73,20 @@ class RegisterAppForm extends Component {
                 </CardSection>
 
                 <CardSection>
+                    <TouchableOpacity
+                        onPress={this.handleChange.bind(this)}
+                    >   
+                        <Text>dad</Text>
+                    </TouchableOpacity>
+                </CardSection>
+
+                <CardSection>
                     <Button onPress={() => this.props.createForm()}>
                         Create
                     </Button>
                 </CardSection>
 
-                <WebView 
-                   source={{ uri: 'https://facebook.github.io/react-native' }} 
-                   style={{flex: 1}}
-                />
+
             </Card>
 
             
