@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { View, WebView } from 'react-native';
 import { connect } from 'react-redux';
 import { formUpdate, createForm } from '../actions';
 
@@ -42,6 +43,8 @@ class RegisterAppForm extends Component {
                         placeholder="this app is use for sport"  
                         value={this.props.description}  
                         onChangeText={text => this.props.formUpdate({ prop: 'description', value: text })}
+                        multiline
+                        
                     />
                 </CardSection>
 
@@ -50,7 +53,14 @@ class RegisterAppForm extends Component {
                         Create
                     </Button>
                 </CardSection>
+
+                <WebView 
+                   source={{ uri: 'https://facebook.github.io/react-native' }} 
+                   style={{flex: 1}}
+                />
             </Card>
+
+            
         );
     }
 }

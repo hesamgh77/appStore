@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
+import axios from 'axios';
 //import { List, ListItem} from 'react-native-elements';
 import AppDetail from './AppDetail';
 
 class AppList extends Component {
-    state={ allapp: [{ name: 'Telegrammmmmmmm', family: 'gholami' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'hesasm', family: 'gholami' }, { name: 'hesasm', family: 'gholami' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'WhatsApp', family: 'sanee' }] };
+    state={
+        allapp: [{ name: 'Telegrammmmmmmm', family: 'gholami' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'hesasm', family: 'gholami' }, { name: 'hesasm', family: 'gholami' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'WhatsApp', family: 'sanee' }],
+        apiApp: []
+    };
+    componentWillMount() {
+        axios.get()
+        .then(response => this.setState({ apiApp: response.data }));
+    }
     renderApp(myapp) {
         return (
             <AppDetail myapp={myapp} />

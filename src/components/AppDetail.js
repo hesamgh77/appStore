@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import { Text, View, Image } from 'react-native';
+import { myimage } from '../Image/add.png';
 
 class AppDetail extends Component {
     render() {
         return (
             <View style={styles.hesam}>
-                 <View style={styles.thumbnailContainerStyle}>
                     <Image 
-                        style={styles.thumbnailStyle}
+                        style={styles.imageStyle}
                     />
-                 </View>
                  <Text style={styles.item}>{this.props.myapp.name}</Text>
 
             </View>
@@ -33,14 +32,19 @@ const styles = {
 
     },
     thumbnailStyle: {
-        height: 50,
-        width: 50
+        height: 20,
+        width: 20
     },
     thumbnailContainerStyle: {
         justifyContent: 'center',
         alignItems: 'center',
         marginLeft: 10,
         marginRight: 10
+    },
+    imageStyle: {
+        height: 20,
+        flex: 1,
+        width: null
     }
   };
   
