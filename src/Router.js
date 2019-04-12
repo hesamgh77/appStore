@@ -20,6 +20,7 @@ const RouterComponent = () => {
                     component={AppList}                
                     title="AppStore"
                     initial 
+                    
                     />
                     <Scene key="appForm" component={RegisterAppForm} title="NewApp" />
                 </Scene>            

@@ -12,7 +12,7 @@ class App extends Component {
     render() {
         return (
             <Provider store={createStore(reducers)}>
-                <View style={{ flex: 1 }}>
+                <View style={{ flex: 1, backgroundColor: '#000' }}>
                    <Router />
                 </View>
             </Provider>

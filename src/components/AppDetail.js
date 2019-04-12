@@ -21,8 +21,8 @@ const styles = {
     item: {
       fontSize: 18,
       height: 44,
-      letterSpacing: 3,
-      color: '#008CBA',
+      //letterSpacing: 3,
+      color: 'orange',
       textAlign: 'justify'
     },
     hesam: {
