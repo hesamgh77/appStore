@@ -82,7 +82,7 @@ class RegisterAppForm extends Component {
                     </View>
                 </CardSection>
 
-        
+                
                 <CardSection>
                         <Button onPress={() => this.props.createForm()}>
                             Create

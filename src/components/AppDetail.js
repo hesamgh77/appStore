@@ -11,6 +11,7 @@ class AppDetail extends Component {
                     />
                  <Text style={styles.item}>{this.props.myapp.name}</Text>
 
+
             </View>
         );
     }

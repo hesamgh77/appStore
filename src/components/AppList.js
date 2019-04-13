@@ -6,13 +6,26 @@ import AppDetail from './AppDetail';
 
 class AppList extends Component {
     state={
-        allapp: [{ name: 'Telegrammmmmmmm', family: 'gholami' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'hesasm', family: 'gholami' }, { name: 'hesasm', family: 'gholami' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'WhatsApp', family: 'sanee' }],
+        allapp: [{ name: 'Telegram', family: 'gholami' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'hesasm', family: 'gholami' }, { name: 'hesasm', family: 'gholami' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'WhatsApp', family: 'sanee' }],
         apiApp: []
     };
+    
     componentWillMount() {
-        axios.get()
-        .then(response => this.setState({ apiApp: response.data }));
+        /*
+        //'http://127.0.0.1:8000/media/image_files/logotype-telegram-round-blue-logo-512.png'
+        axios.get('127.0.0.1:8000/app/')
+        .then(response => {
+            this.setState({ apiApp: response.data });
+            console.log(this.state.apiApp);               
+        })
+        .catch(error => console.log(error));
+        */     
     }
+    /*
+    fetchDataFromApi = () => {
+        const url = ""
+    }
+    */
     renderApp(myapp) {
         return (
             <AppDetail myapp={myapp} />

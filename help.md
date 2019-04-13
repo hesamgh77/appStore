@@ -58,3 +58,5 @@ npm install --save react-redux redux
 npm install --save react-native-router-flux@4.0.6
 3.35.0
 npm i --save react-native-document-picker
+npm install --save rn-fetch-blob
+npm install react-native-fetch
