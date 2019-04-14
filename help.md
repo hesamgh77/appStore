@@ -55,6 +55,7 @@ https://stackoverflow.com/questions/22475849/node-js-what-is-enospc-error-and-ho
 ```
 npm install --save firebase
 npm install --save react-redux redux
+npm install --save redux-thunk
 npm install --save react-native-router-flux@4.0.6
 3.35.0
 npm i --save react-native-document-picker

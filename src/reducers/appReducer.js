@@ -1,4 +1,3 @@
-//import RNFetchBlob from 'rn-fetch-blob';
 import { FORM_UPDATE, CREATE_FORM } from '../actions/types';
 
 const INITIAL_STATE = { appName: '', constructor: '', subject: '', description: '', error: '', loading: false, filePath: '' };

@@ -19,7 +19,8 @@ class AppList extends Component {
     //151.239.247.39 //*****************correct */
     
     
-    componentDidMount() {
+    constructor() {
+        super();
         console.log('golabi');
         fetch('http://192.168.43.195:8000/app/', {
             method: 'GET'

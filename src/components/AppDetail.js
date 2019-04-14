@@ -5,7 +5,7 @@ class AppDetail extends Component {
     render() {    
         var myuri= "http://192.168.43.195:8000";
         myuri += this.props.myapp.image;
-        console.log(myuri);    
+        //console.log(myuri);    
         return (
             <View style={styles.hesam}>
                 <View style={styles.thumbnailContainerStyle}>

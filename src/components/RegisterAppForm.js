@@ -3,7 +3,6 @@ import { TouchableOpacity, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { DocumentPicker, DocumentPickerUtil } from 'react-native-document-picker';
 import { formUpdate, createForm } from '../actions';
-
 import { Card, CardSection, Input, Button } from './common';
 
 class RegisterAppForm extends Component {
@@ -18,19 +17,28 @@ class RegisterAppForm extends Component {
             //Plain Text DocumentPickerUtil.plainText()
           },
           (error, res) => {
-            this.setState({ fileUri: res.uri });
-            this.setState({ fileType: res.type });
-            this.setState({ fileName: res.fileName });
-            this.setState({ fileSize: res.fileSize });
+            //this.setState({ fileUri: res.uri });
+            //this.setState({ fileType: res.type });
+            //this.setState({ fileName: res.fileName });
+            //this.setState({ fileSize: res.fileSize });
      
-            console.log('res : ' + JSON.stringify(res));
-            console.log('URI : ' + res.uri);
-            console.log('Type : ' + res.type);
-            console.log('File Name : ' + res.fileName);
-            console.log('File Size : ' + res.fileSize);
+            //console.log('res : ' + JSON.stringify(res));
+            //console.log('URI : ' + res.uri);
+            //console.log('Type : ' + res.type);
+            //console.log('File Name : ' + res.fileName);
+            //console.log('File Size : ' + res.fileSize);
           }
         );
-      }
+        /*
+        RNFetchBlob.fetch('POST', 'http://www.example.com/upload-form', {}, [
+            { name: 'avatar-foo', filename: 'avatar-foo.png', type: 'image/foo', data: RNFetchBlob.wrap(this.state.fileUri) }]
+            ).then((resp) => {
+                console.log(resp);
+          }).catch((err) => {
+                console.log(err);
+          });
+          */ 
+    }
     render() {
         return (
             <View>
@@ -84,7 +92,7 @@ class RegisterAppForm extends Component {
 
                 
                 <CardSection>
-                        <Button onPress={() => this.props.createForm()}>
+                        <Button onPress={() => this.props.createForm(this.props.appName)}>
                             Create
                         </Button>
                 </CardSection>
