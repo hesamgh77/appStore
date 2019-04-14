@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { Scene, Router, Actions } from 'react-native-router-flux';
 import AppList from './components/AppList';
 import RegisterAppForm from './components/RegisterAppForm';
-import plusIcon from './Image/add-1.png';
+//import plusIcon from './Image/add-1.png';
 
 const RouterComponent = () => {
     return (
@@ -14,7 +14,7 @@ const RouterComponent = () => {
                     titleStyle={{ textAlign: 'center', flex: 1 }}
                     //rightButtonImage={plusIcon}
                     rightTitle="Add"
-                    leftButtonImage={plusIcon}
+                    //leftButtonImage={plusIcon}
                     onRight={() => Actions.appForm()}
                     key="HomePage"
                     component={AppList}                

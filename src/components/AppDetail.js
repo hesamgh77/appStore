@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 import { Text, View, Image } from 'react-native';
-import { myimage } from '../Image/add.png';
 
 class AppDetail extends Component {
-    render() {
+    render() {    
+        var myuri= "http://192.168.43.195:8000";
+        myuri += this.props.myapp.image;
+        console.log(myuri);    
         return (
             <View style={styles.hesam}>
+                <View style={styles.thumbnailContainerStyle}>
                     <Image 
-                        style={styles.imageStyle}
+                        style={styles.thumbnailStyle}
+                        source={{ uri: myuri }}
                     />
-                 <Text style={styles.item}>{this.props.myapp.name}</Text>
-
+                </View>
+                
+                <Text style={styles.item}>{this.props.myapp.name}</Text>
 
             </View>
         );
@@ -23,7 +28,7 @@ const styles = {
       fontSize: 18,
       height: 44,
       //letterSpacing: 3,
-      color: 'orange',
+      color: 'black',
       textAlign: 'justify'
     },
     hesam: {
@@ -33,8 +38,8 @@ const styles = {
 
     },
     thumbnailStyle: {
-        height: 20,
-        width: 20
+        height: 50,
+        width: 50
     },
     thumbnailContainerStyle: {
         justifyContent: 'center',
@@ -43,9 +48,8 @@ const styles = {
         marginRight: 10
     },
     imageStyle: {
-        height: 20,
-        flex: 1,
-        width: null
+        height: 50,
+        width: 50
     }
   };
   
