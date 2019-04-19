@@ -30,7 +30,8 @@ const styles = {
     labelStyle: {
         paddingLeft: 20,
         fontSize: 18,
-        flex: 1
+        flex: 1,
+        color: 'black'
     },
     containerStyle: {
         height: 70,

@@ -13,9 +13,9 @@ const RouterComponent = () => {
                     <Scene
                     titleStyle={{ textAlign: 'center', flex: 1 }}
                     //rightButtonImage={plusIcon}
-                    rightTitle="Add"
+                    //rightTitle="Add"
                     //leftButtonImage={plusIcon}
-                    onRight={() => Actions.appForm()}
+                    //onRight={() => Actions.appForm()}
                     key="HomePage"
                     component={AppList}                
                     title="AppStore"

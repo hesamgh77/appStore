@@ -3,7 +3,7 @@ import { Text, View, Image } from 'react-native';
 
 class AppDetail extends Component {
     render() {    
-        var myuri= "http://192.168.43.195:8000";
+        var myuri= "http://192.168.1.106:8000";
         myuri += this.props.myapp.image;
         //console.log(myuri);    
         return (

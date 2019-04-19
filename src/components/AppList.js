@@ -22,7 +22,7 @@ class AppList extends Component {
     constructor() {
         super();
         console.log('golabi');
-        fetch('http://192.168.43.195:8000/app/', {
+        fetch('http://192.168.1.106:8000/app/', {
             method: 'GET'
         })
         .then((response) => response.json())

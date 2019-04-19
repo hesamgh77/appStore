@@ -17,16 +17,16 @@ class RegisterAppForm extends Component {
             //Plain Text DocumentPickerUtil.plainText()
           },
           (error, res) => {
-            //this.setState({ fileUri: res.uri });
-            //this.setState({ fileType: res.type });
-            //this.setState({ fileName: res.fileName });
-            //this.setState({ fileSize: res.fileSize });
+            this.setState({ fileUri: res.uri });
+            this.setState({ fileType: res.type });
+            this.setState({ fileName: res.fileName });
+            this.setState({ fileSize: res.fileSize });
      
-            //console.log('res : ' + JSON.stringify(res));
-            //console.log('URI : ' + res.uri);
-            //console.log('Type : ' + res.type);
-            //console.log('File Name : ' + res.fileName);
-            //console.log('File Size : ' + res.fileSize);
+            console.log('res : ' + JSON.stringify(res));
+            console.log('URI : ' + res.uri);
+            console.log('Type : ' + res.type);
+            console.log('File Name : ' + res.fileName);
+            console.log('File Size : ' + res.fileSize);
           }
         );
         /*
@@ -53,7 +53,7 @@ class RegisterAppForm extends Component {
                 <CardSection>
                     <Input 
                         label="Constructors"
-                        placeholder="hessam Gholami"
+                        placeholder="hessam Gholamii"
                         value={this.props.constructor}
                         onChangeText={text => this.props.formUpdate({ prop: 'constructor', value: text })}
                     />
@@ -92,7 +92,7 @@ class RegisterAppForm extends Component {
 
                 
                 <CardSection>
-                        <Button onPress={() => this.props.createForm(this.props.appName)}>
+                        <Button onPress={() => this.props.createForm(this.props.appName, this.props.description, this.props.subject)}>
                             Create
                         </Button>
                 </CardSection>
