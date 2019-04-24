@@ -1,21 +1,26 @@
 import React, { Component } from 'react';
-import { Text, View, Image } from 'react-native';
+import { Text, View, Image, TouchableOpacity } from 'react-native';
 
 class AppDetail extends Component {
     render() {    
-        var myuri= "http://192.168.1.106:8000";
+        var myuri= "http://192.168.1.103:8000";
         myuri += this.props.myapp.image;
         //console.log(myuri);    
+        console.log(this.props.myapp);
         return (
-            <View style={styles.hesam}>
+            <View style={styles.hesam}>                            
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Details', {
+                myApp: this.props.myapp
+            })}
+            >
                 <View style={styles.thumbnailContainerStyle}>
                     <Image 
                         style={styles.thumbnailStyle}
                         source={{ uri: myuri }}
                     />
                 </View>
-                
-                <Text style={styles.item}>{this.props.myapp.name}</Text>
+                    <Text style={styles.item}>{this.props.myapp.name}</Text>
+                </TouchableOpacity>
 
             </View>
         );

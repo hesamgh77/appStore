@@ -1,31 +1,19 @@
-import React, { Component } from 'react';
-import { View } from 'react-native';
+import React from 'react';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
+import { View } from 'react-native';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
-import AppList from './components/AppList';
-import RegisterAppForm from './components/RegisterAppForm';
 import reducers from './reducers';
-//import { Header } from './components/common';
-//import RegisterAppForm from './components/RegisterAppForm';
-//import AppList from './components/AppList';
-import Router from './Router';
+import DetailScreen from './DetailScreen';
+import HomeScreen from './HomeScreen';
 import LoginForm from './components/LoginForm';
-import SignupForm from './components/SignupForm';
-import AppPage from './components/AppPage';
 
 const RootStack = createStackNavigator(
     {
-      Home: AppList,
-      Details: AppPage,
-    },
-    {
-      secondHome: AppList 
-    },
-    {
-      
-      thirdHome: AppPage
+      Home: LoginForm,
+      Details: DetailScreen,
+
     },
     //{
       //  headerMode: 'none',
@@ -48,14 +36,13 @@ const RootStack = createStackNavigator(
   );
 const AppContainer = createAppContainer(RootStack);
 
-class App extends Component {
+export default class App extends React.Component {
     render() {
-        return (
-            <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
+      return (
+
+        <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
                 <AppContainer />
-            </Provider>
-           
-            );
+        </Provider>
+      );
     }
-}
-export default App;
+  }

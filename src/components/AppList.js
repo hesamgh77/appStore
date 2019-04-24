@@ -8,6 +8,18 @@ import AppDetail from './AppDetail';
 /// const image = require('asasdasdsad');
 
 class AppList extends Component {
+    static navigationOptions = {
+        title: 'Home',
+       /*
+        headerStyle: {
+          backgroundColor: '#f4511e',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        */
+    }
     //const myIp='http://192.168.43.195:8000';
     state={
         allapp: [{ name: 'Telegram', family: 'gholami' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'hesasm', family: 'gholami' }, { name: 'hesasm', family: 'gholami' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'WhatsApp', family: 'sanee' }],
@@ -22,7 +34,7 @@ class AppList extends Component {
     constructor() {
         super();
         console.log('golabi');
-        fetch('http://192.168.1.106:8000/app/', {
+        fetch('http://192.168.1.103:8000/app/', {
             method: 'GET'
         })
         .then((response) => response.json())
@@ -54,7 +66,7 @@ class AppList extends Component {
     renderApp(myapp) {
         return (
             
-            <AppDetail myapp={myapp} />
+            <AppDetail myapp={myapp} navigation={this.props.navigation} />
         );
     }
     render() {

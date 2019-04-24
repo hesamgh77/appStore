@@ -61,3 +61,7 @@ npm install --save react-native-router-flux@4.0.6
 npm i --save react-native-document-picker
 npm install --save rn-fetch-blob
 npm install react-native-fetch
+npm install --save react-navigation
+npm install --save react-native-gesture-handler
+react-native link react-native-gesture-handler
+
