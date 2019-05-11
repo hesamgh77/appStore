@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { createStackNavigator, createAppContainer } from 'react-navigation';
+import { createStackNavigator, createAppContainer, createBottomTabNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
@@ -15,18 +15,20 @@ import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 import AppPage from './components/AppPage';
 
-const RootStack = createStackNavigator(
+const homeStack = createStackNavigator(
     {
       Home: AppList,
       Details: AppPage,
     },
+    /*
     {
-      secondHome: AppList 
+      secondHome: AppPage
     },
     {
       
       thirdHome: AppPage
     },
+    */
     //{
       //  headerMode: 'none',
     //},
@@ -46,8 +48,35 @@ const RootStack = createStackNavigator(
     }
     
   );
-const AppContainer = createAppContainer(RootStack);
 
+const profileStack = createStackNavigator(
+  {
+    Home: AppList,
+  }
+);
+const categorizeStack = createStackNavigator(
+  {
+    Home: RegisterAppForm,
+
+  }
+); 
+//const AppContainer = createAppContainer(profileStack);
+const AppContainer = createAppContainer(createBottomTabNavigator(
+  {
+    Home: homeStack,
+    profile: profileStack,
+    categorize: categorizeStack,
+  },
+  {
+    tabBarOptions: {
+      //activeTintColor: 'tomato',
+      inactiveTintColor: 'gray',
+      labelStyle: {
+        fontSize: 14
+      }
+    },
+  }
+));
 class App extends Component {
     render() {
         return (

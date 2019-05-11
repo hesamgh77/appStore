@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
-
 class AppDetail extends Component {
     render() {    
-        var myuri= "http://192.168.1.103:8000";
+        var myuri= "http://192.168.1.102:8000";
         myuri += this.props.myapp.image;
         //console.log(myuri);    
         console.log(this.props.myapp);

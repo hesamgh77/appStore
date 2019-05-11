@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View, Button } from 'react-native';
 
 class DetailScreen extends React.Component {
-    /*static navigationOptions = ({ navigation, navigationOptions }) => {
+    static navigationOptions = ({ navigation, navigationOptions }) => {
         console.log(navigationOptions);
         // Notice the logs ^
         // sometimes we call with the default navigationOptions and other times
@@ -16,7 +16,7 @@ class DetailScreen extends React.Component {
           //headerTintColor: navigationOptions.headerStyle.backgroundColor,
         };
       };
-    */
+    
     render() {
       /* 2. Get the param, provide a fallback value if not available */
       const { navigation } = this.props;
