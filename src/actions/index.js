@@ -11,7 +11,7 @@ export const formUpdate = ({ prop, value }) => {
 };
 export const createForm = (name, app_description, subject) => {
     return (dispatch) => {
-        RNFetchBlob.fetch('POST', 'http://192.168.122.1:8000/app/', {
+        RNFetchBlob.fetch('POST', 'http://192.168.1.102:8000/app/', {
             Accept: 'application/json',
             'Content-Type': 'multipart/form-data'
         },

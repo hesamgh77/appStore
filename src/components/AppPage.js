@@ -1,14 +1,36 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
-import { Button } from './common';
-
+import { Button, CardSection } from './common';
+import { all_app_url, base_api } from '../config';
 
 class AppPage extends Component {
+    state= {
+        app: []
+    };
+    componentWillMount() {
+        const { navigation } = this.props;
+        const id = navigation.getParam('myApp', 'nothing');
+        console.log(id);
+        const app_url = all_app_url + id + '/';
+        fetch(app_url, {
+            method: 'GET'
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log('data', data);
+            this.setState({ app: data });
+        })
+        .catch((error) => {
+        console.error(error);
+        console.log(state.app);
+        });
+    }
     handleChange() {
         console.log('pleas');
         let dirs = RNFetchBlob.fs.dirs;
-        let options = {
+        //filePath = `${dirs.DownloadDir}/${filename}.${type}`
+        /*let options = {
             fileCache: true,
             path: dirs.SDCardDir,
             addAndroidDownloads: {
@@ -16,18 +38,40 @@ class AppPage extends Component {
               notification: true
             }
         };
+        */
+        const url = base_api + this.state.app.apk_file;
+        console.log(url);       
         RNFetchBlob
             .config(
                 {
-                    //fileCache: true,
-                    path: dirs.DownloadDir,
                     addAndroidDownloads: {
+                        useDownloadManager: true,
+                        title: 'bazar.apk',
+                        description: 'An APK that will be installed',
+                        mime: 'application/apk',
+                        mediaScannable: true,
+                        notification: true,
+                        path: RNFetchBlob.fs.dirs.SDCardDir + "/hesam.apk" //add
+                        }
+                    /*addAndroidDownloads: {
                       useDownloadManager: true,
                       notification: true
                     }
+                    */
+                    /*addAndroidDownloads: {
+                        //fileCache: true,
+                        useDownloadManager: true,
+                        notification: true,
+                        mime: 'application/apk',
+                        path: dirs.SDCardDir + '/pppath-to-fileeedaldklklda.apk'
+                    }
+                    addAndroidDownloads: {
+                        useDownloadManager: true,
+                        notification: true,
+                    },*/
                 }
             )
-            .fetch('GET', 'http://192.168.1.102:8000/media/apk_files/bazaar.apk', {
+            .fetch('GET', url, {
             //some headers ..
             })
             .then((res) => {
@@ -37,14 +81,23 @@ class AppPage extends Component {
             })
             .catch((error) => console.log(error));
             }
+    
     render() {
-        const { navigation } = this.props;
-        const myapp = navigation.getParam('myApp', 'nothing');
-        console.log(myapp);
         return (
-                <Button onPress={() => this.handleChange()}>   
-                    Click Here for choosing File ...
-                </Button>
+                <View>
+                    <Text>{this.state.app.name}</Text>
+                    <Text>{this.state.app.app_description}</Text>
+                    <Text>{this.state.app.subject}</Text>
+                    <Text>{this.state.app.size}</Text>
+                    <Text>{this.state.app.download_number}</Text>
+                    <CardSection>
+                        <Button onPress={() => this.handleChange()}>   
+                            Download
+                        </Button>     
+                    </CardSection>
+                                   
+                </View>
+
            
         );
     }

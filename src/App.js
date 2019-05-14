@@ -14,6 +14,7 @@ import Router from './Router';
 import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 import AppPage from './components/AppPage';
+import profile from './components/profile';
 
 const homeStack = createStackNavigator(
     {
@@ -33,7 +34,7 @@ const homeStack = createStackNavigator(
       //  headerMode: 'none',
     //},
     {
-        initialRouteName: 'Home',
+        //initialRouteName: 'Home',
         //headerMode: 'none',
         defaultNavigationOptions: {
             headerStyle: {
@@ -43,20 +44,31 @@ const homeStack = createStackNavigator(
             headerTitleStyle: {
               fontWeight: 'bold',
             },
-          },
-               
+          },   
     }
-    
   );
-
 const profileStack = createStackNavigator(
   {
-    Home: AppList,
+    profile: profile,
+    Details: AppPage,
+  },
+  {
+    //headerMode: 'none',
+    defaultNavigationOptions: {
+        headerStyle: {
+          backgroundColor: '#f4511e',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      },
+           
   }
 );
 const categorizeStack = createStackNavigator(
   {
-    Home: RegisterAppForm,
+    category: RegisterAppForm,
 
   }
 ); 
@@ -65,7 +77,7 @@ const AppContainer = createAppContainer(createBottomTabNavigator(
   {
     Home: homeStack,
     profile: profileStack,
-    categorize: categorizeStack,
+    //categorize: categorizeStack,
   },
   {
     tabBarOptions: {

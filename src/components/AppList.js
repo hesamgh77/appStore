@@ -4,6 +4,7 @@ import axios from 'axios';
 //import fetch from 'react-native-fetch';
 //import { List, ListItem} from 'react-native-elements';
 import AppDetail from './AppDetail';
+import { all_app_url } from '../config';
 
 /// const image = require('asasdasdsad');
 
@@ -30,11 +31,11 @@ class AppList extends Component {
 
     //151.239.247.39 //*****************correct */
     
-    
     constructor() {
         super();
         console.log('golabi');
-        fetch('http://192.168.1.102:8000/app/', {
+        //http://192.168.1.102:8000/app/
+        fetch(all_app_url, {
             method: 'GET'
         })
         .then((response) => response.json())
