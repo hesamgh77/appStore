@@ -1,6 +1,6 @@
 import { FORM_UPDATE, CREATE_FORM } from '../actions/types';
 
-const INITIAL_STATE = { appName: '', constructor: '', subject: '', description: '', error: '', loading: false, filePath: '' };
+const INITIAL_STATE = { appName: '', constructor: '', subject: '', description: '', error: '', loading: false, };
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case FORM_UPDATE:

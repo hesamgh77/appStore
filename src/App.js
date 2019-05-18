@@ -15,6 +15,7 @@ import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 import AppPage from './components/AppPage';
 import profile from './components/profile';
+import category from './components/category';
 
 const homeStack = createStackNavigator(
     {
@@ -51,6 +52,10 @@ const profileStack = createStackNavigator(
   {
     profile: profile,
     Details: AppPage,
+    login: LoginForm,
+    signup: SignupForm,
+    createApp: RegisterAppForm,
+
   },
   {
     //headerMode: 'none',
@@ -66,26 +71,50 @@ const profileStack = createStackNavigator(
            
   }
 );
-const categorizeStack = createStackNavigator(
+const categoryStack = createStackNavigator(
   {
-    category: RegisterAppForm,
-
+    category: category,
+  },
+  {
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: '#f4511e',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    },
   }
 ); 
 //const AppContainer = createAppContainer(profileStack);
 const AppContainer = createAppContainer(createBottomTabNavigator(
   {
-    Home: homeStack,
     profile: profileStack,
+    category: categoryStack,
+    Home: homeStack,
     //categorize: categorizeStack,
   },
   {
+    initialRouteName: 'Home',
     tabBarOptions: {
       //activeTintColor: 'tomato',
       inactiveTintColor: 'gray',
       labelStyle: {
-        fontSize: 14
-      }
+        fontSize: 14,
+        //textAlign: 'center',
+        //flex: 1,
+        //justifyContent: 'center'
+      },
+      /*tabStyle: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1
+      },
+      style: {
+        alignSelf: 'center'
+      }*/
+      //style: { , justifyContent: 'center' }
     },
   }
 ));
@@ -95,7 +124,6 @@ class App extends Component {
             <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
                 <AppContainer />
             </Provider>
-           
             );
     }
 }

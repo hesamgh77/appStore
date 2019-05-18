@@ -6,11 +6,12 @@ import axios from 'axios';
 import AppDetail from './AppDetail';
 import { all_app_url } from '../config';
 
-/// const image = require('asasdasdsad');
 
 class AppList extends Component {
     static navigationOptions = {
         title: 'Home',
+        headerTitleStyle: { textAlign: 'center', flex: 1 },
+
        /*
         headerStyle: {
           backgroundColor: '#f4511e',
@@ -36,7 +37,11 @@ class AppList extends Component {
         console.log('golabi');
         //http://192.168.1.102:8000/app/
         fetch(all_app_url, {
-            method: 'GET'
+            method: 'GET',
+           /* headers: {
+                'Authorization': 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo3LCJ1c2VybmFtZSI6Imhlc2FtX2doaCIsImV4cCI6MTU1ODE3NTUxMCwiZW1haWwiOiJoZXNhbV9naG9sYW1pQHlhaG9vLmNvbSIsIm9yaWdfaWF0IjoxNTU4MTcwMTEwfQ.XVRrMPhTMUP7fO4P8LbB79VAxMMySX-rVE8R9GJcM5c'
+            }
+            */
         })
         .then((response) => response.json())
         .then((data) => {

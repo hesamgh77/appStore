@@ -6,7 +6,31 @@ import { formUpdate, createForm } from '../actions';
 import { Card, CardSection, Input, Button } from './common';
 
 class RegisterAppForm extends Component {
-    handleChange() {
+    handleImageFileChange() {
+         //Opening Document Picker
+         DocumentPicker.show(
+            {
+              filetype: [DocumentPickerUtil.allFiles()],
+              //All type of Files DocumentPickerUtil.allFiles()
+              //Only PDF DocumentPickerUtil.pdf()
+              //Audio DocumentPickerUtil.audio()
+              //Plain Text DocumentPickerUtil.plainText()
+            },
+            (error, res) => {
+              this.setState({ imageUri: res.uri });
+              this.setState({ imageType: res.type });
+              this.setState({ imageName: res.fileName });
+              this.setState({ imageSize: res.fileSize });
+       
+              console.log('res : ' + JSON.stringify(res));
+              console.log('URI : ' + res.uri);
+              console.log('Type : ' + res.type);
+              console.log('File Name : ' + res.fileName);
+              console.log('File Size : ' + res.fileSize);
+            }
+          );
+    }
+    handleApkFileChange() {
         //Opening Document Picker
         DocumentPicker.show(
           {
@@ -23,6 +47,10 @@ class RegisterAppForm extends Component {
             this.setState({ fileSize: res.fileSize });
      
             console.log('res : ' + JSON.stringify(res));
+            //this.setState({});
+            this.props.apk_file = res.uri;
+            //this.props.size = res.size;
+            console.log(this.props);
             console.log('URI : ' + res.uri);
             console.log('Type : ' + res.type);
             console.log('File Name : ' + res.fileName);
@@ -50,15 +78,7 @@ class RegisterAppForm extends Component {
                         onChangeText={text => this.props.formUpdate({ prop: 'appName', value: text })}
                     />
                 </CardSection>
-                <CardSection>
-                    <Input 
-                        label="Constructors"
-                        placeholder="hessam Gholamii"
-                        value={this.props.constructor}
-                        onChangeText={text => this.props.formUpdate({ prop: 'constructor', value: text })}
-                    />
-                </CardSection>
-                   
+
                 <CardSection>
                     <Input 
                         label="Subject"
@@ -83,19 +103,32 @@ class RegisterAppForm extends Component {
                 <CardSection style={{height: 60}}>
                     <View style={styles.uploadViewStyle}>
                         <TouchableOpacity
-                            onPress={this.handleChange.bind(this)}
+                            onPress={this.handleApkFileChange.bind(this)}
                         >   
                             <Text style={styles.uploadTextStyle}>Click Here for choosing File ...</Text>
                         </TouchableOpacity>
                     </View>
                 </CardSection>
 
+                <CardSection style={{height: 60}}>
+                    <View style={styles.uploadViewStyle}>
+                        <TouchableOpacity
+                            onPress={this.handleImageFileChange.bind(this)}
+                        >   
+                            <Text style={styles.uploadTextStyle}>Click Here for choosing Image ...</Text>
+                        </TouchableOpacity>
+                    </View>
+                </CardSection>
+
                 
                 <CardSection>
-                        <Button onPress={() => this.props.createForm(this.props.appName, this.props.description, this.props.subject)}>
+                        <Button onPress={() => this.props.createForm(this.props.appName, this.props.subject, this.props.description, this.state.fileUri, this.state.imageUri, this.state.fileSize, 1, this.props.token, this.props.navigation)}>
                             Create
                         </Button>
                 </CardSection>
+                <Text>hello</Text>
+                <Text>{this.props.image}</Text>
+
             </View>  
         );
     }
@@ -119,7 +152,8 @@ const mapStateToProps = state => {
         appName: state.app.appName,
         constructor: state.app.constructor,
         subject: state.app.subject,
-        description: state.app.description
+        description: state.app.description,
+        token: state.loginUser.token
     };
 };
 export default connect(mapStateToProps, { formUpdate, createForm })(RegisterAppForm);
