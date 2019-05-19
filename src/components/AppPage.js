@@ -51,7 +51,7 @@ class AppPage extends Component {
                         mime: 'application/apk',
                         mediaScannable: true,
                         notification: true,
-                        path: RNFetchBlob.fs.dirs.SDCardDir + "/hesam.apk" //add
+                        path: RNFetchBlob.fs.dirs.SDCardDir + "/hesam" //add
                         }
                     /*addAndroidDownloads: {
                       useDownloadManager: true,

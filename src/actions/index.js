@@ -9,13 +9,14 @@ export const formUpdate = ({ prop, value }) => {
         payload: { prop, value }
     };
 };
-export const createForm = (name, subject, description, apk_file, image, size, creator, token, navigation) => {
+export const createForm = (name, subject, description, apk_file, image, size, creator, token) => {
     const mytoken = 'JWT ' + token;
     console.log(mytoken);
     var number = size;
     number = number / 1000000;
     number = number.toFixed(2);
     number = JSON.parse(number);
+    console.log(subject);
     return (dispatch) => {
         RNFetchBlob.fetch('POST', createApp_api, {
             Accept: 'application/json',
@@ -55,7 +56,6 @@ export const createForm = (name, subject, description, apk_file, image, size, cr
             }
         ]
         ).then((res) => { 
-            navigation.navigate('Home');
             console.log(res);
             dispatch({ type: CREATE_FORM });
         })
