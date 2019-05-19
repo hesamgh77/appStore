@@ -15,6 +15,7 @@ import { Card, CardSection, Input, Button } from './common';
                 </CardSection>
 */
 class RegisterAppForm extends Component {
+    state = { imageName: 'Click Here for choosing Image ...', fileName: 'Click Here for choosing File ...' }
     handleImageFileChange() {
          //Opening Document Picker
          DocumentPicker.show(
@@ -129,29 +130,33 @@ class RegisterAppForm extends Component {
                         <TouchableOpacity
                             onPress={this.handleApkFileChange.bind(this)}
                         >   
-                            <Text style={styles.uploadTextStyle}>Click Here for choosing File ...</Text>
+                            <Text style={styles.uploadTextStyle}>{this.state.fileName}</Text>
                         </TouchableOpacity>
                     </View>
                 </CardSection>
 
-                <CardSection style={{height: 60}}>
+                <CardSection style={{height: 60, borderBottomWidth: 0 }}>
                     <View style={styles.uploadViewStyle}>
                         <TouchableOpacity
                             onPress={this.handleImageFileChange.bind(this)}
                         >   
-                            <Text style={styles.uploadTextStyle}>Click Here for choosing Image ...</Text>
+                            <Text style={styles.uploadTextStyle}>{this.state.imageName}</Text>
                         </TouchableOpacity>
                     </View>
                 </CardSection>
 
                 
-                <CardSection>
-                        <Button onPress={() => this.props.createForm(this.props.appName, this.props.subject, this.props.description, this.state.fileUri, this.state.imageUri, this.state.fileSize, 1, this.props.token)}>
+                <CardSection style={{ borderBottomWidth: 0 }} >
+                        <Button onPress={() => { 
+                            this.props.createForm(this.props.appName, this.props.subject, this.props.description, this.state.fileUri, this.state.imageUri, this.state.fileSize, 1, this.props.token);
+                            this.setState({ imageName: 'Click Here for choosing Image ...' });
+                            this.setState({ fileName: 'Click Here for choosing File ...' });
+                        }}
+                        >
                             Create
                         </Button>
                 </CardSection>
-                <Text>hello</Text>
-                <Text>{this.props.image}</Text>
+                
 
             </View>  
         );

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, Text } from 'react-native';
+import { connect } from 'react-redux';
 import axios from 'axios';
 //import fetch from 'react-native-fetch';
 //import { List, ListItem} from 'react-native-elements';
 import AppDetail from './AppDetail';
 import { all_app_url } from '../config';
+import { getAllApp } from '../actions';
 
 
 class AppList extends Component {
@@ -31,17 +33,16 @@ class AppList extends Component {
     //192.168.1.102
 
     //151.239.247.39 //*****************correct */
-    
+    componentWillMount() {
+
+        this.props.getAllApp();
+    }
     constructor() {
         super();
+        /*
         console.log('golabi');
-        //http://192.168.1.102:8000/app/
         fetch(all_app_url, {
             method: 'GET',
-           /* headers: {
-                'Authorization': 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo3LCJ1c2VybmFtZSI6Imhlc2FtX2doaCIsImV4cCI6MTU1ODE3NTUxMCwiZW1haWwiOiJoZXNhbV9naG9sYW1pQHlhaG9vLmNvbSIsIm9yaWdfaWF0IjoxNTU4MTcwMTEwfQ.XVRrMPhTMUP7fO4P8LbB79VAxMMySX-rVE8R9GJcM5c'
-            }
-            */
         })
         .then((response) => response.json())
         .then((data) => {
@@ -51,7 +52,10 @@ class AppList extends Component {
         .catch((error) => {
         console.error(error);
         });
-        
+        */
+       console.log('start of cons');
+       //this.props.getAllApp();
+       //console.log(this.props.apiApp);
         /*
         //'http://127.0.0.1:8000/media/image_files/logotype-telegram-round-blue-logo-512.png'
         axios.get('192.168.1.102:8000/app/')
@@ -76,18 +80,27 @@ class AppList extends Component {
         );
     }
     render() {
+        //this.props.getAllApp();
+        //console.log('sj');
+        console.log(this.props.apiapp);
+        console.log(this.props.apiapp.length);
+        if (this.props.apiapp.length == 0) {
+            return (null);
+        }
         return (
             <FlatList 
                 style={styles.container}
                 columnWrapperStyle={styles.heasm}
-                data={this.state.apiApp}
+                //data={this.state.apiApp}
+                data={this.props.apiapp}
                 numColumns='3'
                 renderItem={({ item }) =>
                 this.renderApp(item)
             }
             />
-        );
+        ); 
     }
+
 }
 
 //rgb(255,200,150)
@@ -103,4 +116,11 @@ const styles = {
     }
    
 };
-export default AppList;
+const mapStateToProps = state => {
+    return {
+        apiapp: state.allApp.apiApp,
+        refresh: state.allApp.refresh
+    };
+};
+//export default AppList;
+export default connect(mapStateToProps, { getAllApp })(AppList); 

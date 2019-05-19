@@ -3,7 +3,8 @@ import { Text } from 'react-native';
 
 class category extends Component {
     static navigationOptions = {
-        title: 'category',
+        title: 'Category',
+        headerTitleStyle: { textAlign: 'center', flex: 1 }
     }
     render() {
         return (

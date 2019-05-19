@@ -1,7 +1,7 @@
 import axios from 'axios';
 import RNFetchBlob from 'rn-fetch-blob';
-import { FORM_UPDATE, CREATE_FORM, SIGNUP_UPDATE, SIGNUP_SUCCESS, SIGNUP_FAIL, LOGIN_UPDATE, LOGIN_FAIL, LOGIN_SUCCESS, SIGN_OUT } from './types';
-import { signup_api, all_app_url, login_api, createApp_api } from '../config';
+import { FORM_UPDATE, CREATE_FORM, SIGNUP_UPDATE, SIGNUP_SUCCESS, SIGNUP_FAIL, LOGIN_UPDATE, LOGIN_FAIL, LOGIN_SUCCESS, SIGN_OUT, GET_ALL_APP, UPDATE_PROFILE, UPDATE_HOME_PAGE } from './types';
+import { signup_api, all_app_url, login_api, createApp_api, get_profile_api } from '../config';
 
 export const formUpdate = ({ prop, value }) => {
     return {
@@ -57,7 +57,19 @@ export const createForm = (name, subject, description, apk_file, image, size, cr
         ]
         ).then((res) => { 
             console.log(res);
+            //update_home_page();
             dispatch({ type: CREATE_FORM });
+            fetch(all_app_url, {
+                method: 'GET',
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                //console.log('data', data);
+                dispatch({ type: GET_ALL_APP, payload: data });
+            })
+            .catch((error) => {
+            console.error(error);
+            });
         })
         .catch((err) => {
             console.log(err);
@@ -193,10 +205,22 @@ export const login = (username, password) => {
         ]
         ).then((res) => { 
             console.log(res.data);
-            //console.log(firstname);
-            //console.log('correct');
             const obj = JSON.parse(res.data);
+            console.log(obj);
             dispatch({ type: LOGIN_SUCCESS, mytoken: obj['token'] });
+            RNFetchBlob.fetch('GET', get_profile_api, {
+                Accept: 'application/json',
+                Authorization: 'JWT '+ obj['token']
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                dispatch({ type: UPDATE_PROFILE, payload: data });
+            })
+            .catch((err) => {
+                dispatch({ type: LOGIN_FAIL });
+
+            });
         })
         .catch((err) => {
             console.log(err);
@@ -209,4 +233,22 @@ export const signout = () => {
         type: SIGN_OUT
     };
 };
-
+export const getAllApp = () => {
+    console.log('start of action');
+    return (dispatch) => {
+        fetch(all_app_url, {
+            method: 'GET',
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            //console.log('data', data);
+            dispatch({ type: GET_ALL_APP, payload: data });
+        })
+        .catch((error) => {
+        console.error(error);
+        });
+    };
+};
+export const update_home_page = () => {
+    return { type: UPDATE_HOME_PAGE };
+};

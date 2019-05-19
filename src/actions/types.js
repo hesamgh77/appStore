@@ -7,4 +7,7 @@ export const LOGIN_UPDATE = 'login_update';
 export const LOGIN_SUCCESS = 'login_success';
 export const LOGIN_FAIL = 'login_fail';
 export const SIGN_OUT = 'signout';
+export const GET_ALL_APP = 'get_all_app';
+export const UPDATE_PROFILE = 'update_profile';
+export const UPDATE_HOME_PAGE = 'update_home_page';
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, Image } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
-import { Button, CardSection } from './common';
+import { Button, CardSection, Card } from './common';
 import { all_app_url, base_api } from '../config';
 
 class AppPage extends Component {
@@ -81,10 +81,9 @@ class AppPage extends Component {
             })
             .catch((error) => console.log(error));
             }
-    
-    render() {
-        return (
+    /*
                 <View>
+
                     <Text>{this.state.app.name}</Text>
                     <Text>{this.state.app.app_description}</Text>
                     <Text>{this.state.app.subject}</Text>
@@ -97,15 +96,77 @@ class AppPage extends Component {
                     </CardSection>
                                    
                 </View>
+    */
+    render() {
+        var url=base_api+this.state.app.image;
+        console.log(url);
+        console.log(this.state.app.image);
+        return (
+            <View>
+            <View style={styles.container}>
+                <View>
+                    <Image 
+                        style={styles.imageStyle}
+                        source={{ uri: url }}
+                    />
+                </View>
 
-           
+                <View style={styles.DetailAppStyle}>
+                    <Text style={styles.AppNameStyle}>{this.state.app.name}</Text>
+                    <Text style={styles.DescriptionStyle}>{this.state.app.app_description}</Text>
+                    <Text style={styles.SizeStyle}>{this.state.app.size} MB</Text>
+                </View>
+            </View>
+            <CardSection style={styles.cardSectionStyle}>
+                <Button onPress={() => this.handleChange()}>   
+                    Download
+                </Button>     
+            </CardSection>
+            </View>
         );
     }
 }
 const styles = {
     uploadTextStyle: {
         fontSize: 18
-
+    },
+    imageStyle: {
+        height: 100,
+        width: 100,
+        //flex: 1,
+        //width: null
+    },
+    container: {
+        flexDirection: 'row',
+        marginTop: 45,
+        marginLeft: 35 
+    },
+    DetailAppStyle: {
+        //marginTop: 15,
+        //marginLeft: 85,
+        paddingLeft: 70,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    AppNameStyle: {
+        fontSize: 25,
+        //marginBottom: 5,
+        fontWeight: '600',
+        color: 'black'
+    },
+    DescriptionStyle: {
+        fontSize: 20,
+        color: 'green'
+    },
+    SizeStyle: {
+        fontSize: 15,
+        marginTop: 15,
+        color: 'gray'
+    },
+    cardSectionStyle: {
+        marginTop: 20,
+        color: 'green',
+        borderBottomWidth: 0
     }
 };
 export default AppPage;
