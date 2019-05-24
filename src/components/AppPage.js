@@ -11,7 +11,6 @@ class AppPage extends Component {
     componentWillMount() {
         const { navigation } = this.props;
         const id = navigation.getParam('myApp', 'nothing');
-        console.log(id);
         const app_url = all_app_url + id + '/';
         fetch(app_url, {
             method: 'GET'
@@ -26,7 +25,7 @@ class AppPage extends Component {
         console.log(state.app);
         });
     }
-    handleChange() {
+    handleChange(nameOfApp) {
         console.log('pleas');
         let dirs = RNFetchBlob.fs.dirs;
         //filePath = `${dirs.DownloadDir}/${filename}.${type}`
@@ -41,17 +40,18 @@ class AppPage extends Component {
         */
         const url = base_api + this.state.app.apk_file;
         console.log(url);       
+        const new_name = RNFetchBlob.fs.dirs.SDCardDir + `/${nameOfApp}.apk`;
         RNFetchBlob
             .config(
                 {
                     addAndroidDownloads: {
                         useDownloadManager: true,
-                        title: 'bazar.apk',
-                        description: 'An APK that will be installed',
+                        title: `${nameOfApp}.apk`,
+                        description: 'An APK that is downloading',
                         mime: 'application/apk',
                         mediaScannable: true,
                         notification: true,
-                        path: RNFetchBlob.fs.dirs.SDCardDir + "/hesam" //add
+                        path: new_name //add
                         }
                     /*addAndroidDownloads: {
                       useDownloadManager: true,
@@ -118,7 +118,7 @@ class AppPage extends Component {
                 </View>
             </View>
             <CardSection style={styles.cardSectionStyle}>
-                <Button onPress={() => this.handleChange()}>   
+                <Button onPress={() => this.handleChange(this.state.app.name)}>   
                     Download
                 </Button>     
             </CardSection>

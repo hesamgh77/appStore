@@ -1,6 +1,20 @@
-import axios from 'axios';
 import RNFetchBlob from 'rn-fetch-blob';
-import { FORM_UPDATE, CREATE_FORM, SIGNUP_UPDATE, SIGNUP_SUCCESS, SIGNUP_FAIL, LOGIN_UPDATE, LOGIN_FAIL, LOGIN_SUCCESS, SIGN_OUT, GET_ALL_APP, UPDATE_PROFILE, UPDATE_HOME_PAGE } from './types';
+import { FORM_UPDATE,
+    CREATE_FORM,
+    SIGNUP_UPDATE,
+    SIGNUP_SUCCESS,
+    SIGNUP_FAIL,
+    LOGIN_UPDATE,
+    LOGIN_FAIL,
+    LOGIN_SUCCESS,
+    SIGN_OUT,
+    GET_ALL_APP,
+    UPDATE_PROFILE,
+    UPDATE_HOME_PAGE,
+    REMOVE_ERROR_LOGIN,
+    LOGIN_LOADING,
+    SIGNUP_REMOVE_MESSAGE
+} from './types';
 import { signup_api, all_app_url, login_api, createApp_api, get_profile_api } from '../config';
 
 export const formUpdate = ({ prop, value }) => {
@@ -137,6 +151,8 @@ export const signupUpdate = ({ prop, value }) => {
 };
 export const signup = (firstname, lastname, username, phone, email, password) => {
     return (dispatch) => {
+        const real_username = username.toLowerCase();
+        dispatch({ type: SIGNUP_REMOVE_MESSAGE });
         RNFetchBlob.fetch('POST', signup_api, {
             Accept: 'application/json',
             'Content-Type': 'multipart/form-data'
@@ -144,7 +160,7 @@ export const signup = (firstname, lastname, username, phone, email, password) =>
         [
             {
                 name: 'username',
-                data: username
+                data: real_username
             },
             { 
                 name: 'first_name',
@@ -168,11 +184,19 @@ export const signup = (firstname, lastname, username, phone, email, password) =>
             }
         ]
         ).then((res) => { 
-            //console.log(res);
-            //console.log(firstname);
+            console.log(res);
+            console.log(res.data);
+            console.log(res.respInfo);
+            console.log(res.respInfo.status);
+            if (res.respInfo.state == 201){
+                dispatch({ type: SIGNUP_SUCCESS });
+            } else {
+                dispatch({ type: SIGNUP_FAIL });
+            }
+            const obj = JSON.parse(res.data);
+            
             //console.log('correct');
-            login(username, password);
-            dispatch({ type: SIGNUP_SUCCESS });
+            //login(username, password);
         })
         .catch((err) => {
             console.log(err);
@@ -181,51 +205,72 @@ export const signup = (firstname, lastname, username, phone, email, password) =>
     };
 };
 export const LoginformUpdate = ({ prop, value }) => {
-    console.log('55');
     return {
         type: LOGIN_UPDATE,
         payload: { prop, value }
     };
 };
-export const login = (username, password) => {
+export const login = (username, password, navigation) => {
     return (dispatch) => {
-        RNFetchBlob.fetch('POST', login_api, {
-            Accept: 'application/json',
-            'Content-Type': 'multipart/form-data'
-        },
-        [
-            {
-                name: 'username',
-                data: username
-            },
-            {
-                name: 'password',
-                data: password
+        dispatch({ type: REMOVE_ERROR_LOGIN });
+        dispatch({ type: LOGIN_FAIL, payload: 'remove_emptyError' });
+        if (username.length == 0 || password.length == 0){
+            if (username.length == 0) {
+                dispatch({ type: LOGIN_FAIL, payload: 'empty_username' });
             }
-        ]
-        ).then((res) => { 
-            console.log(res.data);
-            const obj = JSON.parse(res.data);
-            console.log(obj);
-            dispatch({ type: LOGIN_SUCCESS, mytoken: obj['token'] });
-            RNFetchBlob.fetch('GET', get_profile_api, {
+            if (password.length == 0) {
+                dispatch({ type: LOGIN_FAIL, payload: 'empty_password' });
+        }
+        } else {
+            dispatch({ type: LOGIN_LOADING });
+            RNFetchBlob.fetch('POST', login_api, {
                 Accept: 'application/json',
-                Authorization: 'JWT '+ obj['token']
-            })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                dispatch({ type: UPDATE_PROFILE, payload: data });
+                'Content-Type': 'multipart/form-data'
+            },
+            [
+                {
+                    name: 'username',
+                    data: username
+                },
+                {
+                    name: 'password',
+                    data: password
+                }
+            ]
+            ).then((res) => {
+                //console.log(res.data);
+                const obj = JSON.parse(res.data);
+                console.log('*****');
+                console.log(obj);
+                //console.log(obj['non_field_errors']);
+                if (typeof obj['non_field_errors'] !== "undefined") {
+                    console.log('Errrrrrrrrrrrrrrrrrror');
+                    dispatch({ type: LOGIN_FAIL, payload: 'invalid' });
+                } else {
+                    console.log('adj');
+                    navigation.goBack();
+                    navigation.navigate('Home');
+                    dispatch({ type: REMOVE_ERROR_LOGIN });
+                    dispatch({ type: LOGIN_SUCCESS, mytoken: obj['token'] });
+                    RNFetchBlob.fetch('GET', get_profile_api, {
+                        Accept: 'application/json',
+                        Authorization: 'JWT '+ obj['token']
+                    })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        console.log(data);
+                        dispatch({ type: UPDATE_PROFILE, payload: data });
+                    })
+                    .catch((err) => {
+                        dispatch({ type: LOGIN_FAIL });
+                    });
+                }
             })
             .catch((err) => {
+                console.log(err);
                 dispatch({ type: LOGIN_FAIL });
-
             });
-        })
-        .catch((err) => {
-            console.log(err);
-            dispatch({ type: LOGIN_FAIL });
-        });
+    }
     };
 };
 export const signout = () => {
@@ -251,4 +296,7 @@ export const getAllApp = () => {
 };
 export const update_home_page = () => {
     return { type: UPDATE_HOME_PAGE };
+};
+export const remove_update_message = () => {
+    return { type: SIGNUP_REMOVE_MESSAGE };
 };

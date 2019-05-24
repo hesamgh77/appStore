@@ -1,9 +1,12 @@
 import { FORM_UPDATE, CREATE_FORM } from '../actions/types';
 
-const INITIAL_STATE = { appName: '', constructor: '', subject: '', description: '', error: '', loading: false, };
+const INITIAL_STATE = { appName: '', constructor: '', subject: '', description: '', error: '', loading: false, apk_file: '', image_file: '', file_size: '', imageName: 'Click Here for choosing Image ...', fileName: 'Click Here for choosing File ...' };
 export default (state = INITIAL_STATE, action) => {
+    console.log(action);
+    console.log('****');
     switch (action.type) {
         case FORM_UPDATE:
+            console.log(state);
             return { ...state, [action.payload.prop]: action.payload.value };
         case CREATE_FORM: //send data to server
 

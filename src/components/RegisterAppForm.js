@@ -15,7 +15,14 @@ import { Card, CardSection, Input, Button } from './common';
                 </CardSection>
 */
 class RegisterAppForm extends Component {
-    state = { imageName: 'Click Here for choosing Image ...', fileName: 'Click Here for choosing File ...' }
+    state = { 
+        imageName: 'Click Here for choosing Image ...',
+        fileName: 'Click Here for choosing File ...',
+        appname_error: '',
+        description_error: '',
+        imageUri_error: '',
+        fileUri_error: ''
+    }
     handleImageFileChange() {
          //Opening Document Picker
          DocumentPicker.show(
@@ -31,7 +38,8 @@ class RegisterAppForm extends Component {
               this.setState({ imageType: res.type });
               this.setState({ imageName: res.fileName });
               this.setState({ imageSize: res.fileSize });
-       
+              this.props.formUpdate({ prop:'image_file', value: res.uri });
+              this.props.formUpdate({ prop:'imageName', value: res.fileName });
               console.log('res : ' + JSON.stringify(res));
               console.log('URI : ' + res.uri);
               console.log('Type : ' + res.type);
@@ -55,11 +63,10 @@ class RegisterAppForm extends Component {
             this.setState({ fileType: res.type });
             this.setState({ fileName: res.fileName });
             this.setState({ fileSize: res.fileSize });
-     
+            this.props.formUpdate({ prop: 'apk_file', value: res.uri });
+            this.props.formUpdate({ prop: 'file_size', value: res.fileSize });
+            this.props.formUpdate({ prop: 'fileName', value: res.fileName });
             console.log('res : ' + JSON.stringify(res));
-            //this.setState({});
-            this.props.apk_file = res.uri;
-            //this.props.size = res.size;
             console.log(this.props);
             console.log('URI : ' + res.uri);
             console.log('Type : ' + res.type);
@@ -77,7 +84,16 @@ class RegisterAppForm extends Component {
           });
           */ 
     }
+    /*
+    checkField = () => {
+        const value = 1;
+        if (this.props.appName.length ==)
+    }
+    */
     render() {
+        console.log(this.props.id_user);
+
+
         return (
             <View>
                 <CardSection>
@@ -130,7 +146,7 @@ class RegisterAppForm extends Component {
                         <TouchableOpacity
                             onPress={this.handleApkFileChange.bind(this)}
                         >   
-                            <Text style={styles.uploadTextStyle}>{this.state.fileName}</Text>
+                            <Text style={styles.uploadTextStyle}>{this.props.fileName}</Text>
                         </TouchableOpacity>
                     </View>
                 </CardSection>
@@ -140,17 +156,15 @@ class RegisterAppForm extends Component {
                         <TouchableOpacity
                             onPress={this.handleImageFileChange.bind(this)}
                         >   
-                            <Text style={styles.uploadTextStyle}>{this.state.imageName}</Text>
+                            <Text style={styles.uploadTextStyle}>{this.props.imageName}</Text>
                         </TouchableOpacity>
                     </View>
                 </CardSection>
 
                 
                 <CardSection style={{ borderBottomWidth: 0 }} >
-                        <Button onPress={() => { 
-                            this.props.createForm(this.props.appName, this.props.subject, this.props.description, this.state.fileUri, this.state.imageUri, this.state.fileSize, 1, this.props.token);
-                            this.setState({ imageName: 'Click Here for choosing Image ...' });
-                            this.setState({ fileName: 'Click Here for choosing File ...' });
+                        <Button onPress={() => {
+                            this.props.createForm(this.props.appName, this.props.subject, this.props.description, this.state.fileUri, this.state.imageUri, this.state.fileSize, this.props.id_user, this.props.token);
                         }}
                         >
                             Create
@@ -189,7 +203,13 @@ const mapStateToProps = state => {
         constructor: state.app.constructor,
         subject: state.app.subject,
         description: state.app.description,
-        token: state.loginUser.token
+        token: state.loginUser.token,
+        apk_file: state.loginUser.apk_file,
+        image_file: state.loginUser.image_file,
+        file_size: state.loginUser.file_size,
+        id_user: state.profileUser.userProfile[0].id,
+        imageName: state.app.imageName,
+        fileName: state.app.fileName
     };
 };
 export default connect(mapStateToProps, { formUpdate, createForm })(RegisterAppForm);

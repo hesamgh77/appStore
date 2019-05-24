@@ -8,7 +8,6 @@ import AppDetail from './AppDetail';
 import { all_app_url } from '../config';
 import { getAllApp } from '../actions';
 
-
 class AppList extends Component {
     static navigationOptions = {
         title: 'Home',
@@ -24,20 +23,21 @@ class AppList extends Component {
         },
         */
     }
-    //const myIp='http://192.168.43.195:8000';
-    state={
-        allapp: [{ name: 'Telegram', family: 'gholami' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'hesasm', family: 'gholami' }, { name: 'hesasm', family: 'gholami' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'WhatsApp', family: 'sanee' }, { name: 'WhatsApp', family: 'sanee' }],
-        apiApp: []
-    };
-    //192.168.232.2
-    //192.168.1.102
-
-    //151.239.247.39 //*****************correct */
-    componentWillMount() {
-
+    /*
+    constructor(props) {
+        super(props);
         this.props.getAllApp();
     }
-    constructor() {
+    */
+    state={
+        apiApp: []
+    };
+    
+    componentWillMount() {
+        this.props.getAllApp();
+    }
+    keyExtractor = (item) => item.id;
+    /*constructor() {
         super();
         /*
         console.log('golabi');
@@ -53,7 +53,7 @@ class AppList extends Component {
         console.error(error);
         });
         */
-       console.log('start of cons');
+       //console.log('start of cons');
        //this.props.getAllApp();
        //console.log(this.props.apiApp);
         /*
@@ -64,8 +64,10 @@ class AppList extends Component {
             console.log(response.data);               
         })
         .catch(error => console.log(error));
-    */
+    
     }
+    */
+    
 
     /*
     fetchDataFromApi = () => {
@@ -80,10 +82,8 @@ class AppList extends Component {
         );
     }
     render() {
-        //this.props.getAllApp();
-        //console.log('sj');
-        console.log(this.props.apiapp);
-        console.log(this.props.apiapp.length);
+        //console.log(this.props.apiapp);
+        //console.log(this.props.apiapp.length);
         if (this.props.apiapp.length == 0) {
             return (null);
         }
@@ -94,6 +94,7 @@ class AppList extends Component {
                 //data={this.state.apiApp}
                 data={this.props.apiapp}
                 numColumns='3'
+                keyExtractor={this.keyExtractor}
                 renderItem={({ item }) =>
                 this.renderApp(item)
             }
@@ -102,7 +103,6 @@ class AppList extends Component {
     }
 
 }
-
 //rgb(255,200,150)
 const styles = {
     container: {
@@ -118,8 +118,7 @@ const styles = {
 };
 const mapStateToProps = state => {
     return {
-        apiapp: state.allApp.apiApp,
-        refresh: state.allApp.refresh
+        apiapp: state.allApp.apiApp
     };
 };
 //export default AppList;

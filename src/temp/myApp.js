@@ -4,10 +4,10 @@ import { View } from 'react-native';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
-import reducers from './reducers';
-import DetailScreen from './DetailScreen';
+import reducers from '../reducers';
+import DetailScreen from '../DetailScreen';
 import HomeScreen from './HomeScreen';
-import LoginForm from './components/LoginForm';
+import LoginForm from '../components/LoginForm';
 
 const RootStack = createStackNavigator(
     {

@@ -10,4 +10,7 @@ export const SIGN_OUT = 'signout';
 export const GET_ALL_APP = 'get_all_app';
 export const UPDATE_PROFILE = 'update_profile';
 export const UPDATE_HOME_PAGE = 'update_home_page';
+export const REMOVE_ERROR_LOGIN = 'remove_error_login';
+export const LOGIN_LOADING = 'login_loading';
+export const SIGNUP_REMOVE_MESSAGE = 'signup_remove_message';
 

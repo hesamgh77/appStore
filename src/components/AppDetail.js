@@ -7,7 +7,7 @@ class AppDetail extends Component {
         var myuri= base_api;
         myuri += this.props.myapp.image;
         //console.log(myuri);    
-        console.log(this.props.myapp);
+        //console.log(this.props.myapp);
         return (
             <View style={styles.hesam}>                            
             <TouchableOpacity onPress={() => this.props.navigation.navigate('Details', {
@@ -27,7 +27,6 @@ class AppDetail extends Component {
         );
     }
 }
-
 //#008CBA
 const styles = {
     item: {
