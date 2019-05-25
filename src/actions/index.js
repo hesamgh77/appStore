@@ -13,7 +13,10 @@ import { FORM_UPDATE,
     UPDATE_HOME_PAGE,
     REMOVE_ERROR_LOGIN,
     LOGIN_LOADING,
-    SIGNUP_REMOVE_MESSAGE
+    SIGNUP_REMOVE_MESSAGE,
+    REMOVE_CREATEAPP_MESSAGE,
+    ENABLE_LOADING,
+    DISABLE_LOADING
 } from './types';
 import { signup_api, all_app_url, login_api, createApp_api, get_profile_api } from '../config';
 
@@ -32,6 +35,8 @@ export const createForm = (name, subject, description, apk_file, image, size, cr
     number = JSON.parse(number);
     console.log(subject);
     return (dispatch) => {
+        dispatch({ type: REMOVE_CREATEAPP_MESSAGE });
+        dispatch({ type: ENABLE_LOADING });
         RNFetchBlob.fetch('POST', createApp_api, {
             Accept: 'application/json',
             Authorization: mytoken
@@ -72,6 +77,7 @@ export const createForm = (name, subject, description, apk_file, image, size, cr
         ).then((res) => { 
             console.log(res);
             //update_home_page();
+            dispatch({ type: DISABLE_LOADING });
             dispatch({ type: CREATE_FORM });
             fetch(all_app_url, {
                 method: 'GET',
@@ -86,6 +92,7 @@ export const createForm = (name, subject, description, apk_file, image, size, cr
             });
         })
         .catch((err) => {
+            dispatch({ type: DISABLE_LOADING });
             console.log(err);
             dispatch({ type: CREATE_FORM });
         });
@@ -299,4 +306,7 @@ export const update_home_page = () => {
 };
 export const remove_update_message = () => {
     return { type: SIGNUP_REMOVE_MESSAGE };
+};
+export const remove_createApp_message = () => {
+    return { type: REMOVE_CREATEAPP_MESSAGE };
 };

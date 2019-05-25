@@ -13,4 +13,6 @@ export const UPDATE_HOME_PAGE = 'update_home_page';
 export const REMOVE_ERROR_LOGIN = 'remove_error_login';
 export const LOGIN_LOADING = 'login_loading';
 export const SIGNUP_REMOVE_MESSAGE = 'signup_remove_message';
-
+export const REMOVE_CREATEAPP_MESSAGE = 'remove_createapp_message';
+export const ENABLE_LOADING = 'enable_loading';
+export const DISABLE_LOADING = 'disable_loading';

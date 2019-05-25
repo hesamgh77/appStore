@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { TouchableOpacity, Text, View, Picker } from 'react-native';
 import { connect } from 'react-redux';
 import { DocumentPicker, DocumentPickerUtil } from 'react-native-document-picker';
-import { formUpdate, createForm } from '../actions';
-import { Card, CardSection, Input, Button } from './common';
+import { formUpdate, createForm, remove_createApp_message } from '../actions';
+import { Card, CardSection, Input, Button, Spinner } from './common';
 /*
 <CardSection>
                     <Input 
@@ -84,16 +84,73 @@ class RegisterAppForm extends Component {
           });
           */ 
     }
-    /*
+    
     checkField = () => {
-        const value = 1;
-        if (this.props.appName.length ==)
+        let value = 1;
+        const nameApp_regular_exp = /^(?=.*[A-Za-z])[A-Za-z]{3,9}$/;
+        const description_regular_exp = /^[A-Za-z\d\s]{3,75}$/;
+        const file_regular_exp = /.*(apk)$/;
+        const image_regular_exp = /.*(jpeg|jpg)$/;
+        
+        if (nameApp_regular_exp.test(this.props.appName)) {
+            this.setState({ appname_error: '' });
+        } else {
+            this.setState({ appname_error: 'it should be 3 to 9 character' });
+            value = 0;
+        }
+        if (description_regular_exp.test(this.props.description)) {
+            this.setState({ description_error: '' });
+        } else {
+            this.setState({ description_error: 'it should be 3 to 75 character' });
+            value = 0;
+        }
+        if (file_regular_exp.test(this.props.fileName)) {
+            this.setState({ fileUri_error: '' });
+        } else {
+            this.setState({ fileUri_error: 'just apk file' });   
+            value = 0;
+        }
+        if (image_regular_exp.test(this.props.imageName)) {
+            this.setState({ imageUri_error: '' });   
+        } else {
+            this.setState({ imageUri_error: 'just image' });   
+            value = 0;
+        }
+
+        if (value == 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
-    */
+    renderSpinner() {
+        if (this.props.loading) {
+            return <Spinner size='large' />;
+        }
+        return (
+            <Button onPress={() => {
+                this.props.remove_createApp_message();
+                if (this.checkField()) {
+                    this.props.createForm(this.props.appName, this.props.subject, this.props.description, this.state.fileUri, this.state.imageUri, this.state.fileSize, this.props.id_user, this.props.token);
+                }
+            }}
+            >
+                Create
+            </Button>
+        );
+    }
+    renderMessage() {
+        if (this.props.isSuccess === true) { 
+            return (<Text style={{ color: 'green', fontSize: 20 }}>success</Text>);
+            //this.props.navigation.goBack();  
+        }
+        if (this.props.isSuccess === false) {
+            return (
+                <Text style={{ color: 'red', fontSize: 20 }}>failed</Text>
+            );
+        }
+    }
     render() {
-        console.log(this.props.id_user);
-
-
         return (
             <View>
                 <CardSection>
@@ -104,8 +161,7 @@ class RegisterAppForm extends Component {
                         onChangeText={text => this.props.formUpdate({ prop: 'appName', value: text })}
                     />
                 </CardSection>
-
-                
+                <Text style={styles.errorTextStyles}>{this.state.appname_error}</Text>
                 <CardSection>
                     <Input 
                         ContainerStyle={styles.DescriptionStyle}
@@ -117,7 +173,7 @@ class RegisterAppForm extends Component {
                         
                     />
                 </CardSection>
-                
+                <Text style={styles.errorTextStyles}>{this.state.description_error}</Text>
                 <CardSection >
                     <Text style={styles.pickerTextStyle}>Subject</Text>
                     <Picker
@@ -141,7 +197,7 @@ class RegisterAppForm extends Component {
                     </Picker>
                 </CardSection>
 
-                <CardSection style={{height: 60}}>
+                <CardSection style={{ height: 60 }}>
                     <View style={styles.uploadViewStyle}>
                         <TouchableOpacity
                             onPress={this.handleApkFileChange.bind(this)}
@@ -150,6 +206,7 @@ class RegisterAppForm extends Component {
                         </TouchableOpacity>
                     </View>
                 </CardSection>
+                <Text style={styles.errorTextStyles}>{this.state.fileUri_error}</Text>
 
                 <CardSection style={{height: 60, borderBottomWidth: 0 }}>
                     <View style={styles.uploadViewStyle}>
@@ -160,18 +217,13 @@ class RegisterAppForm extends Component {
                         </TouchableOpacity>
                     </View>
                 </CardSection>
-
-                
+                <Text style={styles.errorTextStyles}>{this.state.imageUri_error}</Text>
+                <View style={{ alignItems: 'center' }}>
+                    {this.renderMessage()}
+                </View>
                 <CardSection style={{ borderBottomWidth: 0 }} >
-                        <Button onPress={() => {
-                            this.props.createForm(this.props.appName, this.props.subject, this.props.description, this.state.fileUri, this.state.imageUri, this.state.fileSize, this.props.id_user, this.props.token);
-                        }}
-                        >
-                            Create
-                        </Button>
+                        {this.renderSpinner()}
                 </CardSection>
-                
-
             </View>  
         );
     }
@@ -195,6 +247,12 @@ const styles = {
         color: 'black',
         marginTop: 10,
         flex: 1
+    },
+    errorTextStyles: {
+        fontSize: 15,
+        //fontWeight: '500',
+        color: 'red',
+        textAlign: 'center'
     }
 };
 const mapStateToProps = state => {
@@ -204,12 +262,14 @@ const mapStateToProps = state => {
         subject: state.app.subject,
         description: state.app.description,
         token: state.loginUser.token,
-        apk_file: state.loginUser.apk_file,
-        image_file: state.loginUser.image_file,
-        file_size: state.loginUser.file_size,
+        apk_file: state.app.apk_file,
+        image_file: state.app.image_file,
+        file_size: state.app.file_size,
         id_user: state.profileUser.userProfile[0].id,
         imageName: state.app.imageName,
-        fileName: state.app.fileName
+        fileName: state.app.fileName,
+        isSuccess: state.app.isSuccess,
+        loading: state.app.loading
     };
 };
-export default connect(mapStateToProps, { formUpdate, createForm })(RegisterAppForm);
+export default connect(mapStateToProps, { formUpdate, createForm, remove_createApp_message })(RegisterAppForm);
