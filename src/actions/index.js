@@ -1,25 +1,34 @@
 import RNFetchBlob from 'rn-fetch-blob';
-import { FORM_UPDATE,
+import { FORM_UPDATE,  //appReducer.js
     CREATE_FORM,
-    SIGNUP_UPDATE,
+    REMOVE_CREATEAPP_MESSAGE,
+    ENABLE_LOADING,
+    DISABLE_LOADING, 
+
+    SIGNUP_UPDATE,  //userReducer.js
     SIGNUP_SUCCESS,
     SIGNUP_FAIL,
-    LOGIN_UPDATE,
+    SIGNUP_REMOVE_MESSAGE,
+
+    LOGIN_UPDATE,   //loginReducer.js
     LOGIN_FAIL,
     LOGIN_SUCCESS,
     SIGN_OUT,
-    GET_ALL_APP,
-    UPDATE_PROFILE,
-    UPDATE_HOME_PAGE,
     REMOVE_ERROR_LOGIN,
     LOGIN_LOADING,
-    SIGNUP_REMOVE_MESSAGE,
-    REMOVE_CREATEAPP_MESSAGE,
-    ENABLE_LOADING,
-    DISABLE_LOADING
+    
+    GET_ALL_APP,   //allAppReducer.js
+    UPDATE_PROFILE,
+    UPDATE_HOME_PAGE,
+
+    ONSTAR,
+    OFFSTAR
 } from './types';
 import { signup_api, all_app_url, login_api, createApp_api, get_profile_api } from '../config';
 
+////////////////////////////////////////////////////////////////////////////////////
+
+//*Creating App */ appReducer.js
 export const formUpdate = ({ prop, value }) => {
     return {
         type: FORM_UPDATE,
@@ -97,64 +106,22 @@ export const createForm = (name, subject, description, apk_file, image, size, cr
             dispatch({ type: CREATE_FORM });
         });
     };
-    
-    //return {
-      //  type: CREATE_FORM
-    //};
 };
-/*
- return (dispatch) => {
-        axios.post('http://192.168.43.195:8000/app/',
-        { 'name': name }
-        ).then((res) => { 
-            console.log(res);
-            dispatch({ type: CREATE_FORM });
-        })
-        .catch((err) => {
-            console.log(err);
-            dispatch({ type: CREATE_FORM });
-        });
-    };
-*/
+export const remove_createApp_message = () => {
+    return { type: REMOVE_CREATEAPP_MESSAGE };
+};
+//////////////////////////////////////////////////////////////////////////////////
 
-/*
-fetch('http://172.17.10.51:8000/app/', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-                
-            },
-            body: JSON.stringify({
-                name: name,
-                app_description: app_description,
-                creator: 1,
-                subject: subject,
-                download_number: 0,
-                size: '37 mb',
-                apk_file: null,
-                image: null
-                //apk_file: null,
-                //image: null  
-            })
-        }
-        ).then((res) => { 
-            console.log(name);
-            console.log(res);
-            dispatch({ type: CREATE_FORM });
-        })
-        .catch((err) => {
-            console.log(err);
-            dispatch({ type: CREATE_FORM });
-        });
-    };
-*/
-
+//////////////////////////////////////////////////////////////////////////////////
+//* SignUp  ///userReducer.js
 export const signupUpdate = ({ prop, value }) => {
     return {
         type: SIGNUP_UPDATE,
         payload: { prop, value }
     };
+};
+export const remove_update_message = () => {
+    return { type: SIGNUP_REMOVE_MESSAGE };
 };
 export const signup = (firstname, lastname, username, phone, email, password) => {
     return (dispatch) => {
@@ -191,19 +158,18 @@ export const signup = (firstname, lastname, username, phone, email, password) =>
             }
         ]
         ).then((res) => { 
+            /*
             console.log(res);
             console.log(res.data);
             console.log(res.respInfo);
             console.log(res.respInfo.status);
+            */
             if (res.respInfo.state == 201){
                 dispatch({ type: SIGNUP_SUCCESS });
             } else {
                 dispatch({ type: SIGNUP_FAIL });
             }
             const obj = JSON.parse(res.data);
-            
-            //console.log('correct');
-            //login(username, password);
         })
         .catch((err) => {
             console.log(err);
@@ -211,6 +177,9 @@ export const signup = (firstname, lastname, username, phone, email, password) =>
         });
     };
 };
+/////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////*Login / loginReducer.js
 export const LoginformUpdate = ({ prop, value }) => {
     return {
         type: LOGIN_UPDATE,
@@ -245,11 +214,7 @@ export const login = (username, password, navigation) => {
                 }
             ]
             ).then((res) => {
-                //console.log(res.data);
                 const obj = JSON.parse(res.data);
-                console.log('*****');
-                console.log(obj);
-                //console.log(obj['non_field_errors']);
                 if (typeof obj['non_field_errors'] !== "undefined") {
                     console.log('Errrrrrrrrrrrrrrrrrror');
                     dispatch({ type: LOGIN_FAIL, payload: 'invalid' });
@@ -285,6 +250,9 @@ export const signout = () => {
         type: SIGN_OUT
     };
 };
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+//*Showing homePage // AllAppReducer.js
 export const getAllApp = () => {
     console.log('start of action');
     return (dispatch) => {
@@ -293,7 +261,7 @@ export const getAllApp = () => {
         })
         .then((response) => response.json())
         .then((data) => {
-            //console.log('data', data);
+            console.log('data', data);
             dispatch({ type: GET_ALL_APP, payload: data });
         })
         .catch((error) => {
@@ -304,9 +272,13 @@ export const getAllApp = () => {
 export const update_home_page = () => {
     return { type: UPDATE_HOME_PAGE };
 };
-export const remove_update_message = () => {
-    return { type: SIGNUP_REMOVE_MESSAGE };
-};
-export const remove_createApp_message = () => {
-    return { type: REMOVE_CREATEAPP_MESSAGE };
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////*Bookmark // bookmarkReducer.js
+export const setStar = (isStarOn) => {
+    if (isStarOn) {
+        return { type: ONSTAR };
+    } else {
+        return { type: OFFSTAR };
+    }
 };

@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, Image } from 'react-native';
+import { connect } from 'react-redux';
 import RNFetchBlob from 'rn-fetch-blob';
 import { Button, CardSection, Card } from './common';
 import { all_app_url, base_api } from '../config';
+import white_star from '../icon/white_star.png';
+import yellow_star from '../icon/yellow_star.png';
+import { setStar } from '../actions';
 
 class AppPage extends Component {
     state= {
-        app: []
+        app: [],
+        star: true
     };
     componentWillMount() {
+        this.props.setStar(true);
         const { navigation } = this.props;
         const id = navigation.getParam('myApp', 'nothing');
         const app_url = all_app_url + id + '/';
@@ -26,7 +32,6 @@ class AppPage extends Component {
         });
     }
     handleChange(nameOfApp) {
-        console.log('pleas');
         let dirs = RNFetchBlob.fs.dirs;
         //filePath = `${dirs.DownloadDir}/${filename}.${type}`
         /*let options = {
@@ -97,6 +102,30 @@ class AppPage extends Component {
                                    
                 </View>
     */
+    handle_star(star) {
+        if (star) {
+            return (
+            <TouchableOpacity onPress={() => this.props.setStar(false)}>
+            <View style={styles.starViewStyle}>
+                <Image 
+                    style={styles.starStyle}
+                    source={yellow_star}
+                />
+            </View>
+            </TouchableOpacity>
+            );
+        }
+        return (
+            <TouchableOpacity onPress={() => this.props.setStar(true)}>
+            <View style={styles.starViewStyle}>
+                <Image 
+                    style={styles.starStyle}
+                    source={white_star}
+                />
+            </View>
+            </TouchableOpacity>
+        );
+    }
     render() {
         var url=base_api+this.state.app.image;
         console.log(url);
@@ -117,6 +146,7 @@ class AppPage extends Component {
                     <Text style={styles.SizeStyle}>{this.state.app.size} MB</Text>
                 </View>
             </View>
+            {this.handle_star(this.props.isStarOn)}
             <CardSection style={styles.cardSectionStyle}>
                 <Button onPress={() => this.handleChange(this.state.app.name)}>   
                     Download
@@ -127,6 +157,15 @@ class AppPage extends Component {
     }
 }
 const styles = {
+    starViewStyle: {
+        alignItems: 'center',
+        marginTop: 20
+    },
+    starStyle: {
+        width: 75,
+        height: 75
+
+    },
     uploadTextStyle: {
         fontSize: 18
     },
@@ -169,4 +208,10 @@ const styles = {
         borderBottomWidth: 0
     }
 };
-export default AppPage;
+//export default AppPage;
+const mapStateToProps = state => {
+    return {
+        isStarOn: state.bookmarkInfo.isStarOn
+    };
+};
+export default connect(mapStateToProps, { setStar })(AppPage);

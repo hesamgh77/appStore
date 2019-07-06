@@ -87,6 +87,7 @@ class AppList extends Component {
         if (this.props.apiapp.length == 0) {
             return (null);
         }
+        console.log(this.props.apiApp);
         return (
             <FlatList 
                 style={styles.container}
