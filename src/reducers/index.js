@@ -5,6 +5,7 @@ import loginReducer from './loginReducer';
 import AllAppReducer from './AllAppReducer';
 import profileReducer from './profileReducer';
 import bookmarkInfo from './bookmarkReducer';
+import commentReducer from './commentReducer';
 
 export default combineReducers({
     app: appReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
     loginUser: loginReducer,
     allApp: AllAppReducer,
     profileUser: profileReducer,
-    bookmarkInfo: bookmarkInfo
+    bookmarkInfo: bookmarkInfo,
+    commentReducer: commentReducer
 });

@@ -1,4 +1,5 @@
 import RNFetchBlob from 'rn-fetch-blob';
+import axios from 'axios';
 import { FORM_UPDATE,  //appReducer.js
     CREATE_FORM,
     REMOVE_CREATEAPP_MESSAGE,
@@ -22,9 +23,11 @@ import { FORM_UPDATE,  //appReducer.js
     UPDATE_HOME_PAGE,
 
     ONSTAR,
-    OFFSTAR
+    OFFSTAR,
+
+    GET_ALL_COMMENT
 } from './types';
-import { signup_api, all_app_url, login_api, createApp_api, get_profile_api } from '../config';
+import { signup_api, all_app_url, login_api, createApp_api, get_profile_api, comment_api } from '../config';
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -281,4 +284,40 @@ export const setStar = (isStarOn) => {
     } else {
         return { type: OFFSTAR };
     }
+};
+export const getAllComment = (idApp) => {
+    console.log('1');
+    var hasComment = false;
+    return (dispatch) => {
+        //var xhr = new XMLHttpRequest();
+        //xhr.open('GET', comment_api, true);
+        //xhr.send({ app: 5 });
+        var url = comment_api + idApp;
+        console.log(url);
+        RNFetchBlob.fetch('GET', url, {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        }
+        )
+        .then((response) => {
+            if (response.respInfo.status == 200) {
+                hasComment = true;
+            }
+            
+            //console.log(response.respInfo.status);
+            return response.json();
+        })
+        .then((res) => { 
+            console.log('data', res);
+            if (hasComment == true) {
+                dispatch({ type: GET_ALL_COMMENT, payload: res });
+            }            
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    };
+};
+export const update_comment = () => {
+
 };

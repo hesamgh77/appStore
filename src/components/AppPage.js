@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Image } from 'react-native';
+import axios from 'axios';
+import { FlatList, Text, View, TouchableOpacity, Image } from 'react-native';
 import { connect } from 'react-redux';
 import RNFetchBlob from 'rn-fetch-blob';
 import { Button, CardSection, Card } from './common';
 import { all_app_url, base_api } from '../config';
 import white_star from '../icon/white_star.png';
 import yellow_star from '../icon/yellow_star.png';
-import { setStar } from '../actions';
+import { setStar, getAllComment } from '../actions';
 
 class AppPage extends Component {
     state= {
@@ -17,6 +18,9 @@ class AppPage extends Component {
         this.props.setStar(true);
         const { navigation } = this.props;
         const id = navigation.getParam('myApp', 'nothing');
+        console.log(id);
+        this.props.getAllComment(id);
+        console.log(this.props.allComment);
         const app_url = all_app_url + id + '/';
         fetch(app_url, {
             method: 'GET'
@@ -28,7 +32,6 @@ class AppPage extends Component {
         })
         .catch((error) => {
         console.error(error);
-        console.log(state.app);
         });
     }
     handleChange(nameOfApp) {
@@ -126,7 +129,29 @@ class AppPage extends Component {
             </TouchableOpacity>
         );
     }
+    showComments() {
+        return (
+            <FlatList
+                data={this.props.allComment}
+                numColumns='1'
+                renderItem={({ item }) =>
+                this.renderComment(item)
+            }
+            />
+        );
+    }
+    renderComment(comment) {
+        console.log(comment['user']);
+        console.log(comment['comment']);
+        return (
+            <View style={styles.containerCommentView}>
+                <Text style={styles.userNameTextStyle}>{comment['user']}</Text>
+                <Text style={styles.commentTextStyle}>{comment['comment']}</Text>
+            </View>
+        );
+    }
     render() {
+        console.log(this.props.allComment);
         var url=base_api+this.state.app.image;
         console.log(url);
         console.log(this.state.app.image);
@@ -152,11 +177,28 @@ class AppPage extends Component {
                     Download
                 </Button>     
             </CardSection>
+            {this.showComments()}
             </View>
         );
     }
 }
 const styles = {
+    containerCommentView: {
+        paddingTop: 5,
+        borderTopWidth: 1,
+        borderColor: 'orange',
+        marginLeft: 25,
+        marginRight: 25
+    },
+    userNameTextStyle: {
+        fontSize: 20,
+        fontWeight: '600',
+        color: 'orange'
+    },
+    commentTextStyle: {
+        fontSize: 17,
+        marginLeft: 25
+    },
     starViewStyle: {
         alignItems: 'center',
         marginTop: 20
@@ -211,7 +253,8 @@ const styles = {
 //export default AppPage;
 const mapStateToProps = state => {
     return {
-        isStarOn: state.bookmarkInfo.isStarOn
+        isStarOn: state.bookmarkInfo.isStarOn,
+        allComment: state.commentReducer.allComment
     };
 };
-export default connect(mapStateToProps, { setStar })(AppPage);
+export default connect(mapStateToProps, { setStar, getAllComment })(AppPage);

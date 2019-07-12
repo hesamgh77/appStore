@@ -32,3 +32,6 @@ export const UPDATE_HOME_PAGE = 'update_home_page';
 export const ONSTAR = 'onstar';
 export const OFFSTAR = 'offstar';
 
+export const GET_ALL_COMMENT = 'get_all_comment';
+export const UPDATE_COMMENT = 'updtae_comment';
+

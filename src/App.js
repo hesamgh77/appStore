@@ -16,7 +16,7 @@ import SignupForm from './components/SignupForm';
 import AppPage from './components/AppPage';
 import profile from './components/profile';
 import category from './components/category';
-import SubjectDetail from './components/SubjectDetail';
+import SubjectApp from './components/SubjectApp';
 
 const homeStack = createStackNavigator(
     {
@@ -75,7 +75,7 @@ const profileStack = createStackNavigator(
 const categoryStack = createStackNavigator(
   {
     category: category,
-    subjectDetail: SubjectDetail,
+    SubjectApp: SubjectApp,
   },
   {
     defaultNavigationOptions: {

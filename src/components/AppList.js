@@ -77,17 +77,18 @@ class AppList extends Component {
    
     renderApp(myapp) {
         return (
-            
             <AppDetail myapp={myapp} navigation={this.props.navigation} />
         );
     }
     render() {
         //console.log(this.props.apiapp);
         //console.log(this.props.apiapp.length);
-        if (this.props.apiapp.length == 0) {
+        if (this.props.apiapp.length == null) {
             return (null);
         }
-        console.log(this.props.apiApp);
+        if (typeof this.props.apiapp == 'undefined') {
+            return (null);
+        }
         return (
             <FlatList 
                 style={styles.container}
