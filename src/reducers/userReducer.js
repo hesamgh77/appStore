@@ -12,6 +12,6 @@ export default (state = INITIAL_STATE, action) => {
         case SIGNUP_FAIL:
             return { ...state, ...INITIAL_STATE, isSuccess: false };
         default:
-            return state;
+            return { ...state };
         }
 };

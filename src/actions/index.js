@@ -29,6 +29,7 @@ import { FORM_UPDATE,  //appReducer.js
     COMMENT_FORM_UPDATE,
     UPDATE_COMMENTS,
     CREATE_COMMENT,
+    DELETE_ALL_COMMENT,
 
     GET_ALL_BOOKMARKED,
     ADD_TO_BOOKMARK
@@ -229,10 +230,11 @@ export const login = (username, password, navigation) => {
                     dispatch({ type: LOGIN_FAIL, payload: 'invalid' });
                 } else {
                     console.log('adj');
-                    navigation.goBack();
-                    navigation.navigate('Home');
+                
                     dispatch({ type: REMOVE_ERROR_LOGIN });
                     dispatch({ type: LOGIN_SUCCESS, mytoken: obj['token'] });
+                    navigation.goBack();
+                    navigation.navigate('Home');
                     RNFetchBlob.fetch('GET', get_profile_api, {
                         Accept: 'application/json',
                         Authorization: 'JWT '+ obj['token']
@@ -241,6 +243,7 @@ export const login = (username, password, navigation) => {
                     .then((data) => {
                         console.log(data);
                         dispatch({ type: UPDATE_PROFILE, payload: data });
+                        
                     })
                     .catch((err) => {
                         dispatch({ type: LOGIN_FAIL });
@@ -382,6 +385,9 @@ export const create_comment = (commentText, userId, appId, token) => {
         ;
     };
 };
+export const delete_all_comment = () => {
+    return { type: DELETE_ALL_COMMENT };
+};
 /////////////////////////////*Bookmark // bookmarkReducer.js
 export const setStar = (isStarOn) => {
     if (isStarOn) {
@@ -406,4 +412,32 @@ export const getBookmarkedApp = (userId, token) => {
     })
     .catch((err) => console.log(err));
     };
+};
+export const add_to_bookmark = (userId, appId, token) => {
+    const mytoken = 'JWT ' + token;
+    return (dispatch) => {
+        RNFetchBlob.fetch('POST', bookmark_api, {
+            Authorization: mytoken,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        [
+            {
+                name: 'user',
+                data: JSON.stringify(userId)
+            },
+            {
+                name: 'app',
+                data: JSON.stringify(appId)
+            }
+        ])
+        .then((data) => data.json())
+        .then((res) => {
+            dispatch({ type: ONSTAR });
+            console.log(res);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    };    
 };

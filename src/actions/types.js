@@ -36,6 +36,6 @@ export const GET_ALL_COMMENT = 'get_all_comment';
 export const UPDATE_COMMENTS = 'updtae_comments';
 export const COMMENT_FORM_UPDATE = 'comment_form_update';
 export const CREATE_COMMENT = 'create_comment';
-
+export const DELETE_ALL_COMMENT = 'delete_all_comment';
 export const GET_ALL_BOOKMARKED = 'get_all_bookmarked';
 export const ADD_TO_BOOKMARK = 'add_to_bookmark';

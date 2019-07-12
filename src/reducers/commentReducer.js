@@ -1,4 +1,4 @@
-import { GET_ALL_COMMENT, UPDATE_COMMENTS, COMMENT_FORM_UPDATE, CREATE_COMMENT } from '../actions/types';
+import { GET_ALL_COMMENT, UPDATE_COMMENTS, COMMENT_FORM_UPDATE, CREATE_COMMENT, DELETE_ALL_COMMENT } from '../actions/types';
 
 const INITIAL_STATE = { allComment: {}, comment: null };
 export default (state = INITIAL_STATE, action) => {
@@ -11,6 +11,8 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, ...INITIAL_STATE };
         case UPDATE_COMMENTS:
             return { ...state, [action.payload.prop]: action.payload.value };
+        case DELETE_ALL_COMMENT:
+            return { ...INITIAL_STATE };
         default:
             return { ...state };
     }

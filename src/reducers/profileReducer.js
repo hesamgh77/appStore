@@ -8,6 +8,6 @@ export default (state = INITIAL_STATE, action) => {
             console.log(state);
             return { ...state, userProfile: action.payload };
         default:
-            return state;
+            return { ...state };
     }
 };

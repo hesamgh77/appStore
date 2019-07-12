@@ -7,7 +7,7 @@ import { Button, CardSection, Card, Input } from './common';
 import { all_app_url, base_api } from '../config';
 import white_star from '../icon/white_star.png';
 import yellow_star from '../icon/yellow_star.png';
-import { setStar, getAllComment, update_comment_form, create_comment } from '../actions';
+import { setStar, getAllComment, update_comment_form, create_comment, add_to_bookmark, delete_all_comment } from '../actions';
 import { ScrollView } from 'react-native-gesture-handler';
 
 class AppPage extends Component {
@@ -16,6 +16,7 @@ class AppPage extends Component {
         star: true
     };
     componentWillMount() {
+        this.props.delete_all_comment();
         this.props.setStar(true);
         const { navigation } = this.props;
         const id = navigation.getParam('myApp', 'nothing');
@@ -107,28 +108,38 @@ class AppPage extends Component {
                 </View>
     */
     handle_star(star) {
-        if (star) {
+        if (this.props.isLogin == true && typeof this.props.userProfile[0] != 'undefined') {
+            console.log(this.props.profileUser);
+            const { navigation } = this.props;
+            const appId = navigation.getParam('myApp', 'nothing');
+            var profile_user = this.props.userProfile[0];
+            var userId = profile_user.id;
+            //console.log(profile_user);
+            if (star) {
+                return (
+                <TouchableOpacity onPress={() => this.props.add_to_bookmark(userId, appId, this.props.token)}>
+                <View style={styles.starViewStyle}>
+                    <Image 
+                        style={styles.starStyle}
+                        source={yellow_star}
+                    />
+                </View>
+                </TouchableOpacity>
+                );
+            }
             return (
-            <TouchableOpacity onPress={() => this.props.setStar(false)}>
-            <View style={styles.starViewStyle}>
-                <Image 
-                    style={styles.starStyle}
-                    source={yellow_star}
-                />
-            </View>
-            </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.props.add_to_bookmark(userId, appId, this.props.token)}>
+                <View style={styles.starViewStyle}>
+                    <Image 
+                        style={styles.starStyle}
+                        source={white_star}
+                    />
+                </View>
+                </TouchableOpacity>
             );
+        } else {
+            return (null);
         }
-        return (
-            <TouchableOpacity onPress={() => this.props.setStar(true)}>
-            <View style={styles.starViewStyle}>
-                <Image 
-                    style={styles.starStyle}
-                    source={white_star}
-                />
-            </View>
-            </TouchableOpacity>
-        );
     }
     showComments() {
         return (
@@ -287,4 +298,4 @@ const mapStateToProps = state => {
         isLogin: state.loginUser.isLogin
     };
 };
-export default connect(mapStateToProps, { setStar, getAllComment, update_comment_form, create_comment })(AppPage);
+export default connect(mapStateToProps, { setStar, getAllComment, update_comment_form, create_comment, add_to_bookmark, delete_all_comment })(AppPage);

@@ -14,6 +14,6 @@ export default (state = INITIAL_STATE, action) => {
         case DISABLE_LOADING:
             return { ...state, loading: false };
         default:
-            return state;
+            return { ...state };
     }
 };
