@@ -3,11 +3,12 @@ import axios from 'axios';
 import { FlatList, Text, View, TouchableOpacity, Image } from 'react-native';
 import { connect } from 'react-redux';
 import RNFetchBlob from 'rn-fetch-blob';
-import { Button, CardSection, Card } from './common';
+import { Button, CardSection, Card, Input } from './common';
 import { all_app_url, base_api } from '../config';
 import white_star from '../icon/white_star.png';
 import yellow_star from '../icon/yellow_star.png';
-import { setStar, getAllComment } from '../actions';
+import { setStar, getAllComment, update_comment_form, create_comment } from '../actions';
+import { ScrollView } from 'react-native-gesture-handler';
 
 class AppPage extends Component {
     state= {
@@ -150,13 +151,37 @@ class AppPage extends Component {
             </View>
         );
     }
-    render() {
-        console.log(this.props.allComment);
-        var url=base_api+this.state.app.image;
-        console.log(url);
-        console.log(this.state.app.image);
-        return (
+    renderCommentForm() {
+        if (this.props.isLogin === true) {
+            return (
             <View>
+            <CardSection>
+                <Input
+                    label="comment"
+                    placeholder="your comment"
+                    value={this.props.comment}
+                    onChangeText={text => this.props.update_comment_form({ prop: 'comment', value: text })}
+                />
+            </CardSection>
+            <CardSection style={styles.cardSectionStyle}>
+                <Button onPress={() => this.props.create_comment(this.props.comment, profile_user.id, appId, this.props.token)}>   
+                    confirm
+                </Button>     
+            </CardSection>
+            </View>
+            );
+        }
+        return (null);
+    }
+    render() {
+        console.log("*//***/*//");
+        var profile_user = this.props.userProfile[0];
+        const { navigation } = this.props;
+        const appId = navigation.getParam('myApp', 'nothing');
+        var url=base_api+this.state.app.image;
+        console.log(this.state.allComment);
+        return (
+            <ScrollView>
             <View style={styles.container}>
                 <View>
                     <Image 
@@ -177,8 +202,9 @@ class AppPage extends Component {
                     Download
                 </Button>     
             </CardSection>
+            {this.renderCommentForm()}
             {this.showComments()}
-            </View>
+            </ScrollView>
         );
     }
 }
@@ -254,7 +280,11 @@ const styles = {
 const mapStateToProps = state => {
     return {
         isStarOn: state.bookmarkInfo.isStarOn,
-        allComment: state.commentReducer.allComment
+        allComment: state.commentReducer.allComment,
+        comment: state.commentReducer.comment,
+        userProfile: state.profileUser.userProfile,
+        token: state.loginUser.token,
+        isLogin: state.loginUser.isLogin
     };
 };
-export default connect(mapStateToProps, { setStar, getAllComment })(AppPage);
+export default connect(mapStateToProps, { setStar, getAllComment, update_comment_form, create_comment })(AppPage);

@@ -25,7 +25,10 @@ import { FORM_UPDATE,  //appReducer.js
     ONSTAR,
     OFFSTAR,
 
-    GET_ALL_COMMENT
+    GET_ALL_COMMENT,
+    COMMENT_FORM_UPDATE,
+    UPDATE_COMMENTS,
+    CREATE_COMMENT
 } from './types';
 import { signup_api, all_app_url, login_api, createApp_api, get_profile_api, comment_api } from '../config';
 
@@ -69,7 +72,7 @@ export const createForm = (name, subject, description, apk_file, image, size, cr
             },
             {
                 name: 'subject',
-                data: 'action_game'
+                data: subject
             },
             {
                 name: 'size',
@@ -225,6 +228,7 @@ export const login = (username, password, navigation) => {
                     console.log('adj');
                     navigation.goBack();
                     navigation.navigate('Home');
+                    navigation.navigate('Home');
                     dispatch({ type: REMOVE_ERROR_LOGIN });
                     dispatch({ type: LOGIN_SUCCESS, mytoken: obj['token'] });
                     RNFetchBlob.fetch('GET', get_profile_api, {
@@ -318,6 +322,69 @@ export const getAllComment = (idApp) => {
         });
     };
 };
-export const update_comment = () => {
-
+export const update_comment_form = ({ prop, value }) => {
+    return {
+        type: COMMENT_FORM_UPDATE,
+        payload: { prop, value }
+    };
+};
+export const update_comments = () => {
+    return { type: UPDATE_COMMENTS };
+};
+export const create_comment = (commentText, userId, appId, token) => {
+    const mytoken = 'JWT ' + token;
+    //console.log("**********");
+    //console.log(commentText, userId, appId, token);
+    //console.log("**********");
+    var hasComment = false;
+    return (dispatch) => {
+        RNFetchBlob.fetch('POST', comment_api, {
+            Accept: 'application/json',
+            Authorization: mytoken
+        },
+        [
+        {
+            name: 'comment',
+            data: commentText
+        },
+        {
+            name: 'user',
+            data: JSON.stringify(userId)
+        },
+        {
+            name: 'app',
+            data: JSON.stringify(appId)
+        }
+        ]
+        )
+        .then((res) => {
+            dispatch({ type: CREATE_COMMENT });
+            console.log(res);
+            var url = comment_api + appId;
+            console.log(url);
+            RNFetchBlob.fetch('GET', url, {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
+            )
+            .then((response) => {
+                if (response.respInfo.status == 200) {
+                    hasComment = true;
+                }
+                
+                //console.log(response.respInfo.status);
+                return response.json();
+            })
+            .then((res) => { 
+                console.log('data', res);
+                if (hasComment == true) {
+                    dispatch({ type: GET_ALL_COMMENT, payload: res });
+                }            
+            })
+            .catch((error) => {
+                console.log(error);
+            });  
+        })
+        ;
+    };
 };

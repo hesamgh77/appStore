@@ -81,7 +81,7 @@ class profile extends Component {
                                 </Button>
                             </CardSection>
                             <CardSection style={{ borderBottomWidth: 0 }} >
-                                <Button onPress={() => { this.props.navigation.navigate('Home'); this.props.signout(); }}>
+                                <Button onPress={() => { this.props.navigation.navigate('Home');this.props.navigation.navigate('Home'); this.props.signout(); }}>
                                     Signout
                                 </Button>
                             </CardSection>

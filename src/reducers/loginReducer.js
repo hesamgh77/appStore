@@ -30,6 +30,7 @@ export default (state = INITIAL_STATE, action) => {
         case LOGIN_LOADING:
             return { ...state, loading: true };
         case SIGN_OUT:
+            //token: '', username: '', password: '', isLogin: false, isError: false, invalidErrorMessage: '', loading: false, isPasswordEmpty: false, isUsernameEmpty: false
             return { ...state, ...INITIAL_STATE };
         default:
             return state;
