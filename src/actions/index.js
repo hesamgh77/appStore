@@ -28,9 +28,12 @@ import { FORM_UPDATE,  //appReducer.js
     GET_ALL_COMMENT,
     COMMENT_FORM_UPDATE,
     UPDATE_COMMENTS,
-    CREATE_COMMENT
+    CREATE_COMMENT,
+
+    GET_ALL_BOOKMARKED,
+    ADD_TO_BOOKMARK
 } from './types';
-import { signup_api, all_app_url, login_api, createApp_api, get_profile_api, comment_api } from '../config';
+import { signup_api, all_app_url, login_api, createApp_api, get_profile_api, comment_api, bookmark_api } from '../config';
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -279,15 +282,7 @@ export const update_home_page = () => {
     return { type: UPDATE_HOME_PAGE };
 };
 //////////////////////////////////////////////////////////////////////////////////////////////
-
-///////////*Bookmark // bookmarkReducer.js
-export const setStar = (isStarOn) => {
-    if (isStarOn) {
-        return { type: ONSTAR };
-    } else {
-        return { type: OFFSTAR };
-    }
-};
+///////////////////CommentReducer.js & AppPage.js
 export const getAllComment = (idApp) => {
     console.log('1');
     var hasComment = false;
@@ -385,5 +380,30 @@ export const create_comment = (commentText, userId, appId, token) => {
             });  
         })
         ;
+    };
+};
+/////////////////////////////*Bookmark // bookmarkReducer.js
+export const setStar = (isStarOn) => {
+    if (isStarOn) {
+        return { type: ONSTAR };
+    } else {
+        return { type: OFFSTAR };
+    }
+};
+export const getBookmarkedApp = (userId, token) => {
+    var url = bookmark_api + userId;
+    const mytoken = 'JWT ' + token;
+    return (dispatch) => {
+    RNFetchBlob.fetch('GET', url, {
+        Authorization: mytoken,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    })
+    .then((data) => data.json())
+    .then((res) => {
+        dispatch({ type: GET_ALL_BOOKMARKED, payload: res });
+        console.log(res);
+    })
+    .catch((err) => console.log(err));
     };
 };

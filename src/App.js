@@ -17,6 +17,7 @@ import AppPage from './components/AppPage';
 import profile from './components/profile';
 import category from './components/category';
 import SubjectApp from './components/SubjectApp';
+import bookMark from './components/Bookmark';
 
 const homeStack = createStackNavigator(
     {
@@ -56,6 +57,7 @@ const profileStack = createStackNavigator(
     login: LoginForm,
     signup: SignupForm,
     createApp: RegisterAppForm,
+    bookMark: bookMark,
 
   },
   {

@@ -279,7 +279,7 @@ const styles = {
 //export default AppPage;
 const mapStateToProps = state => {
     return {
-        isStarOn: state.bookmarkInfo.isStarOn,
+        isStarOn: state.bookmarkReducer.isStarOn,
         allComment: state.commentReducer.allComment,
         comment: state.commentReducer.comment,
         userProfile: state.profileUser.userProfile,

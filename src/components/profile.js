@@ -1,8 +1,10 @@
-import React,{ Component } from 'react';
+import React, { Component } from 'react';
 import { Text, View } from 'react-native';
-import { connect } from 'react-redux';
+import { connect, Image } from 'react-redux';
 import { CardSection, Button } from './common';
 import { signout } from '../actions';
+import yellow_star from '../icon/yellow_star.png';
+
 ////////////////*
 /*
 <View style={{ flex: 1 }}>
@@ -54,8 +56,7 @@ class profile extends Component {
                 </CardSection>
             </View>
             );
-        }
-        else {
+        } else {
             //console.log(this.props.userProfile);
             //console.log(this.props.userProfile.length);
             if (typeof this.props.userProfile !== "undefined") {
@@ -85,11 +86,16 @@ class profile extends Component {
                                     Signout
                                 </Button>
                             </CardSection>
+                            <CardSection>
+                                <Button onPress={() => this.props.navigation.navigate('bookMark')}>
+                                    BookMark
+                                </Button>
+                            </CardSection>
                         </View>
+                        
                     </View>
                 );
-            }
-            else {
+            } else {
                 return (null);
             }
         }
@@ -115,6 +121,14 @@ const styles = {
         color: 'green',
         marginBottom: 25,
         fontWeight: '600'
+    },
+    starViewStyle: {
+        alignItems: 'center',
+        marginTop: 20
+    },
+    starStyle: {
+        width: 75,
+        height: 75
     }
 };
 const mapStateToProps = state => {
