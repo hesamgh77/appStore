@@ -12,6 +12,6 @@ export default (state = INITIAL_STATE, action) => {
         case UPDATE_COMMENTS:
             return { ...state, [action.payload.prop]: action.payload.value };
         default:
-            return 2;
+            return { ...state };
     }
 };

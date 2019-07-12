@@ -152,6 +152,9 @@ class AppPage extends Component {
         );
     }
     renderCommentForm() {
+        var profile_user = this.props.userProfile[0];
+        const { navigation } = this.props;
+        const appId = navigation.getParam('myApp', 'nothing');
         if (this.props.isLogin === true) {
             return (
             <View>
@@ -175,11 +178,8 @@ class AppPage extends Component {
     }
     render() {
         console.log("*//***/*//");
-        var profile_user = this.props.userProfile[0];
-        const { navigation } = this.props;
-        const appId = navigation.getParam('myApp', 'nothing');
         var url=base_api+this.state.app.image;
-        console.log(this.state.allComment);
+        console.log(this.props.allComment);
         return (
             <ScrollView>
             <View style={styles.container}>

@@ -228,7 +228,6 @@ export const login = (username, password, navigation) => {
                     console.log('adj');
                     navigation.goBack();
                     navigation.navigate('Home');
-                    navigation.navigate('Home');
                     dispatch({ type: REMOVE_ERROR_LOGIN });
                     dispatch({ type: LOGIN_SUCCESS, mytoken: obj['token'] });
                     RNFetchBlob.fetch('GET', get_profile_api, {

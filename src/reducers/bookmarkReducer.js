@@ -8,6 +8,6 @@ export default (state = INITIAL_STATE, action) => {
         case OFFSTAR:
             return { ...state, isStarOn: false };
         default:
-            return 1;
+            return { ...state };
     }
 };
