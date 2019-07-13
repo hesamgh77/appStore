@@ -16,7 +16,7 @@ class LoginForm extends Component {
         } else {
                 return (
                    <Button onPress={() => { this.props.login(username, this.props.password, this.props.navigation); }}>
-                       Login
+                       <Text style={{ color: '#3cb371' }}>Login</Text>
                    </Button>
                 );
         }
@@ -39,7 +39,7 @@ class LoginForm extends Component {
     render() {
         return (
             <View style={{ flex: 1, justifyContent: 'center' }}>
-                <CardSection /*style={{ borderTopWidth: 1 }}*/>
+                <CardSection style={{ borderColor: '#b4b4b4' }} >
                     <Input
                         label="username"
                         placeholder="hesam_ghh"
@@ -48,7 +48,7 @@ class LoginForm extends Component {
                     />
                 </CardSection>
                 {this.renderUsernameError()}
-                <CardSection>
+                <CardSection style={{ borderColor: '#b4b4b4' }}>
                     <Input 
                         label="password"
                         placeholder="password"

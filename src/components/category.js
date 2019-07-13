@@ -21,7 +21,27 @@ class category extends Component {
         all_subject: []
     }
     componentWillMount() {
-        this.setState({ all_subject: [{ subject: 'action_game' }, { subject: 'weather_app' }, { subject: 'puzzle_game' }, { subject: 'education_app' }, { subject: 'driver_game' }, { subject: 'tools_app' }, { subject: 'score_game' }, { subject: 'cooking_app' }] });
+        this.setState({ 
+            all_subject:
+            [
+            { subject: 'action_game' },
+            { subject: 'weather_app' }, 
+            { subject: 'puzzle_game' }, 
+            { subject: 'education_app' }, 
+            { subject: 'driver_game' }, 
+            { subject: 'tools_app' }, 
+            { subject: 'score_game' }, 
+            { subject: 'cooking_app' },
+            { subject: 'sports_game' },
+            { subject: 'strategic_game' },
+            { subject: 'lifestyle_app' },
+            { subject: 'health_app' },
+            { subject: 'social_app' },
+            { subject: 'network_app' },
+            { subject: 'media_app' },
+
+            ] 
+    });
     }
     renderApp(myapp) {
         //console.log('*********');

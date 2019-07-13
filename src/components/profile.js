@@ -4,6 +4,7 @@ import { connect, Image } from 'react-redux';
 import { CardSection, Button } from './common';
 import { signout } from '../actions';
 import yellow_star from '../icon/yellow_star.png';
+import { green } from 'ansi-colors';
 
 ////////////////*
 /*
@@ -45,13 +46,13 @@ class profile extends Component {
             <View style={{ marginTop: 200 }}>
                 <CardSection style={{ borderBottomWidth: 0 }}>
                     <Button onPress={() => this.props.navigation.navigate('login')}>
-                        login
+                        <Text style={styles.textButtonStyle}>Login</Text>
                     </Button>
                 </CardSection>
 
                 <CardSection style={{ borderBottomWidth: 0 }}>
                     <Button onPress={() => this.props.navigation.navigate('signup')}>
-                        signup
+                        <Text style={styles.textButtonStyle}>Signup</Text>
                     </Button>
                 </CardSection>
             </View>
@@ -78,17 +79,17 @@ class profile extends Component {
                         <View style={{ justifyContent: 'flex-end' }}>
                             <CardSection style={{ borderBottomWidth: 0 }} >
                                 <Button onPress={() => this.props.navigation.navigate('createApp')}>
-                                    create App
+                                    <Text style={styles.textButtonStyle}>Create App</Text>
                                 </Button>
                             </CardSection>
                             <CardSection style={{ borderBottomWidth: 0 }} >
                                 <Button onPress={() => { this.props.navigation.navigate('Home'); this.props.signout(); }}>
-                                    Signout
+                                    <Text style={styles.textButtonStyle}>Signout</Text>
                                 </Button>
                             </CardSection>
-                            <CardSection>
+                            <CardSection style={{ borderBottomWidth: 0 }}>
                                 <Button onPress={() => this.props.navigation.navigate('bookMark')}>
-                                    BookMark
+                                    <Text style={styles.textButtonStyle}>BookMark</Text>
                                 </Button>
                             </CardSection>
                         </View>
@@ -129,6 +130,11 @@ const styles = {
     starStyle: {
         width: 75,
         height: 75
+    },
+    textButtonStyle: {
+        color: '#3cb371',
+        //letterSpacing: 3,
+
     }
 };
 const mapStateToProps = state => {

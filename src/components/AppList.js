@@ -109,17 +109,19 @@ class AppList extends Component {
                 this.renderApp(item)
             }
             />
-            <Text style={styles.popularTextStyle}>Popular App</Text>
-            <FlatList 
-                style={styles.popularContainer}
-                //data={this.state.apiApp}
-                data={this.props.popularApp}
-                horizontal='true'
-                keyExtractor={this.keyExtractor}
-                renderItem={({ item }) =>
-                this.renderRow(item)
-            }
-            />
+            <View style={{ flex: 1, borderTopWidth: 1, paddingTop: 20, borderColor: '#b4b4b4' }}>
+                <Text style={styles.popularTextStyle}>Popular App</Text>
+                <FlatList 
+                    style={styles.popularContainer}
+                    //data={this.state.apiApp}
+                    data={this.props.popularApp}
+                    horizontal='true'
+                    keyExtractor={this.keyExtractor}
+                    renderItem={({ item }) =>
+                    this.renderRow(item)
+                }
+                />
+            </View>
         </View>
 
         ); 

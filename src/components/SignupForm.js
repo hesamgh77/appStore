@@ -101,7 +101,7 @@ class SignupForm extends Component {
         return (
             <ScrollView>
             <View style={{ flex: 1, justifyContent: 'center' }}>
-                <CardSection /*style={{ borderTopWidth: 1 }}*/>
+                <CardSection style={{ borderColor: '#b4b4b4' }}>
                     <Input
                         label="firstname"
                         placeholder="hessam"
@@ -111,7 +111,7 @@ class SignupForm extends Component {
                 </CardSection>
                 <Text style={styles.errorTextStyles}>{this.state.firstname_error}</Text>
 
-                <CardSection /*style={{ borderTopWidth: 1 }}*/>
+                <CardSection style={{ borderColor: '#b4b4b4' }}>
                     <Input
                         label="lastname"
                         placeholder="gholami"
@@ -121,7 +121,7 @@ class SignupForm extends Component {
                 </CardSection>
                 <Text style={styles.errorTextStyles}>{this.state.lastname_error}</Text>
                
-                <CardSection /*style={{ borderTopWidth: 1 }}*/>
+                <CardSection style={{ borderColor: '#b4b4b4' }}>
                     <Input
                         label="username"
                         placeholder="hessam_gh"
@@ -130,7 +130,7 @@ class SignupForm extends Component {
                     />
                 </CardSection>
                 <Text style={styles.errorTextStyles}>{this.state.username_error}</Text>
-                <CardSection /*style={{ borderTopWidth: 1 }}*/>
+                <CardSection style={{ borderColor: '#b4b4b4' }}>
                     <Input
                         label="phone"
                         placeholder="09122365478"
@@ -140,7 +140,7 @@ class SignupForm extends Component {
                 </CardSection>
                 <Text style={styles.errorTextStyles}>{this.state.phone_error}</Text>
 
-                <CardSection /*style={{ borderTopWidth: 1 }}*/>
+                <CardSection style={{ borderColor: '#b4b4b4' }}>
                     <Input
                         label="email"
                         placeholder="xxx@yahoo.com"
@@ -149,7 +149,7 @@ class SignupForm extends Component {
                     />
                 </CardSection>
                 <Text style={styles.errorTextStyles}>{this.state.email_error}</Text>
-                <CardSection>
+                <CardSection style={{ borderBottomWidth: 0 }}>
                     <Input 
                         label="password"
                         placeholder="password"
@@ -174,7 +174,7 @@ class SignupForm extends Component {
                         }
                     }
                     >
-                       Signup
+                       <Text style={{ color: '#3cb371' }}>Signup</Text>
                    </Button>
                 </CardSection>
             </View>

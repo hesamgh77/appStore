@@ -135,7 +135,7 @@ class RegisterAppForm extends Component {
                 }
             }}
             >
-                Create
+                <Text style={{ color: '#3cb371' }}>Create</Text>
             </Button>
         );
     }
@@ -193,6 +193,9 @@ class RegisterAppForm extends Component {
                         <Picker.Item label="cooking_app" value="cooking_app" />
                         <Picker.Item label="lifestyle_app" value="lifestyle_app" />
                         <Picker.Item label="health_app" value="health_app" />
+                        <Picker.Item label="social_app" value="social_app" />
+                        <Picker.Item label="network_app" value="network_app" />
+                        <Picker.Item label="media_app" value="media_app" />
 
                     </Picker>
                 </CardSection>

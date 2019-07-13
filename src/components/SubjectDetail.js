@@ -6,13 +6,13 @@ import { CardSection, Button } from './common';
 class SubjectDetail extends Component {
     render() {
         return (
-            <View style={{flex: 1}} >
+            <View style={{flex: 1, marginBottom: 25 }} >
                 <CardSection style={{ borderBottomWidth: 0 }}>
                     <Button
                     onPress={() => this.props.navigation.navigate('AppListCategory', {
                     Subject: this.props.myapp.subject })}
                     >
-                        <Text>{this.props.myapp.subject}</Text>
+                        <Text style={{color: '#3cb371' }}>{this.props.myapp.subject}</Text>
                     </Button>
                 </CardSection>
             </View>

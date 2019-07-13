@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, FlatList } from 'react-native';
+import { Text, FlatList, View } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 import { subject_api } from '../config';
 import AppDetail from './AppDetail';
@@ -27,16 +27,16 @@ class AppListCategory extends Component {
     } 
     render() {
         return (
-            <FlatList 
-                style={styles.container}
-                columnWrapperStyle={styles.heasm}
-                //data={this.state.apiApp}
-                data={this.state.all_app}
-                numColumns='2'
-                renderItem={({ item }) =>
-                this.renderApp(item)
-            }
-            />
+                <FlatList 
+                    style={styles.container}
+                    columnWrapperStyle={styles.heasm}
+                    //data={this.state.apiApp}
+                    data={this.state.all_app}
+                    numColumns='2'
+                    renderItem={({ item }) =>
+                    this.renderApp(item)
+                }
+                />
         );
     }
 }
@@ -45,7 +45,7 @@ const styles = {
         flex: 1,
         paddingTop: 22,
         backgroundColor: 'white',
-        marginBottom: 40
+        marginBottom: 40,
        },
     hesam: {
         justifyContent: 'center',
