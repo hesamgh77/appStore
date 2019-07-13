@@ -138,6 +138,7 @@ export const remove_update_message = () => {
 };
 export const signup = (firstname, lastname, username, phone, email, password) => {
     return (dispatch) => {
+        console.log(firstname, lastname, username, phone, email, password);
         const real_username = username.toLowerCase();
         dispatch({ type: SIGNUP_REMOVE_MESSAGE });
         RNFetchBlob.fetch('POST', signup_api, {
@@ -177,7 +178,8 @@ export const signup = (firstname, lastname, username, phone, email, password) =>
             console.log(res.respInfo);
             console.log(res.respInfo.status);
             */
-            if (res.respInfo.state == 201){
+            console.log(res);
+            if (res.respInfo.status == 201) {
                 dispatch({ type: SIGNUP_SUCCESS });
             } else {
                 dispatch({ type: SIGNUP_FAIL });
