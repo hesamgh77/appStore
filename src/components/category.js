@@ -27,7 +27,7 @@ class category extends Component {
         //console.log('*********');
         //console.log(myapp);
         return (
-            <SubjectDetail myapp={myapp} />
+            <SubjectDetail myapp={myapp} navigation={this.props.navigation} />
         );
     }
     render() {

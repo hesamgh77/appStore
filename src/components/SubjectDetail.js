@@ -8,7 +8,10 @@ class SubjectDetail extends Component {
         return (
             <View style={{flex: 1}} >
                 <CardSection style={{ borderBottomWidth: 0 }}>
-                    <Button>
+                    <Button
+                    onPress={() => this.props.navigation.navigate('AppListCategory', {
+                    Subject: this.props.myapp.subject })}
+                    >
                         <Text>{this.props.myapp.subject}</Text>
                     </Button>
                 </CardSection>
