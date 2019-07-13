@@ -33,6 +33,8 @@ export const GET_POPULAR_APP = 'get_popular_app';
 //*Bookmark ------> bookmarkReducer.js &&&&&&&&& actions.index.js
 export const ONSTAR = 'onstar';
 export const OFFSTAR = 'offstar';
+export const SUCCESS_SET_RATE = 'success_set_rate';
+export const REAPETABLE_SET_RATE = 'repeatable_set_rate';
 
 export const GET_ALL_COMMENT = 'get_all_comment';
 export const UPDATE_COMMENTS = 'updtae_comments';

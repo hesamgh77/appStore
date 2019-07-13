@@ -2,18 +2,20 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { FlatList, Text, View, TouchableOpacity, Image } from 'react-native';
 import { connect } from 'react-redux';
+import { Rating } from 'react-native-ratings';
+import { ScrollView } from 'react-native-gesture-handler';
 import RNFetchBlob from 'rn-fetch-blob';
 import { Button, CardSection, Card, Input } from './common';
 import { all_app_url, base_api, download_api } from '../config';
 import white_star from '../icon/white_star.png';
 import yellow_star from '../icon/yellow_star.png';
-import { setStar, getAllComment, update_comment_form, create_comment, add_to_bookmark, delete_all_comment, getBookmarkedApp } from '../actions';
-import { ScrollView } from 'react-native-gesture-handler';
+import { setStar, getAllComment, update_comment_form, create_comment, add_to_bookmark, delete_all_comment, getBookmarkedApp, setRate } from '../actions';
 
 class AppPage extends Component {
     state= {
         app: [],
-        star: true
+        star: true,
+        rate: 3
     };
     componentWillMount() {
         this.props.delete_all_comment();
@@ -143,6 +145,23 @@ class AppPage extends Component {
             if (star) {
                 return (
                 <View>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                    <Rating 
+                        style={styles.RatingStyle}
+                        type='star'
+                        ratingCount={5}
+                        imageSize={35}
+                        color='yello'
+                        showRating
+                        onFinishRating={this.ratingApp}
+                    />
+                    <TouchableOpacity onPress={() => this.props.setRate(userId, appId, this.state.rate, this.props.token)} style={styles.touchStyle}>
+                    <Text style={styles.textStyle}>
+                        click!
+                    </Text>
+                    </TouchableOpacity>
+                </View>
+                <Text>{this.props.messageRate}</Text>
                 <CardSection style={styles.cardSectionStyle}>
                     <Button onPress={() => this.handleChange(this.state.app.name)}>   
                         Download
@@ -161,6 +180,22 @@ class AppPage extends Component {
             }
             return (
                 <View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                        <Rating 
+                                style={styles.RatingStyle}
+                                type='star'
+                                ratingCount={5}
+                                imageSize={35}
+                                color='yello'
+                                showRating
+                                onFinishRating={this.ratingApp}
+                        />
+                        <TouchableOpacity style={styles.touchStyle}>
+                            <Text style={styles.textStyle}>
+                                click!
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
                 <CardSection style={styles.cardSectionStyle}>
                     <Button onPress={() => this.handleChange(this.state.app.name)}>   
                         Download
@@ -179,6 +214,10 @@ class AppPage extends Component {
         } else {
             return (null);
         }
+    }
+    ratingApp = (rating) => {
+        this.setState({ rate: rating });
+        console.log(this.state);
     }
     showComments() {
         return (
@@ -247,6 +286,8 @@ class AppPage extends Component {
                 </View>
             </View>
             {this.handle_star(this.props.isStarOn)}
+            
+            
             {this.renderCommentForm()}
             {this.showComments()}
             </ScrollView>
@@ -319,6 +360,18 @@ const styles = {
         marginTop: 20,
         color: 'green',
         borderBottomWidth: 0
+    },
+    RatingStyle: {
+        justifyContent: 'center',
+        alignItems: 'center'
+                //paddingVertical: 30
+    },
+    buttonStyles: {
+        alignSelf: 'none'
+    },
+    touchStyle: {
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end'
     }
 };
 //export default AppPage;
@@ -330,7 +383,8 @@ const mapStateToProps = state => {
         userProfile: state.profileUser.userProfile,
         token: state.loginUser.token,
         isLogin: state.loginUser.isLogin,
-        bookmarkedApp: state.bookmarkReducer.bookmarkedApp
+        bookmarkedApp: state.bookmarkReducer.bookmarkedApp,
+        messageRate: state.commentReducer.messageRate
     };
 };
-export default connect(mapStateToProps, { setStar, getAllComment, update_comment_form, create_comment, add_to_bookmark, delete_all_comment, getBookmarkedApp })(AppPage);
+export default connect(mapStateToProps, { setStar, getAllComment, update_comment_form, create_comment, add_to_bookmark, delete_all_comment, getBookmarkedApp, setRate })(AppPage);

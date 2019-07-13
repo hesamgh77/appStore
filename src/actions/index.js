@@ -25,6 +25,8 @@ import { FORM_UPDATE,  //appReducer.js
 
     ONSTAR,
     OFFSTAR,
+    SUCCESS_SET_RATE,
+    REAPETABLE_SET_RATE,
 
     GET_ALL_COMMENT,
     COMMENT_FORM_UPDATE,
@@ -35,7 +37,7 @@ import { FORM_UPDATE,  //appReducer.js
     GET_ALL_BOOKMARKED,
     ADD_TO_BOOKMARK
 } from './types';
-import { signup_api, all_app_url, login_api, createApp_api, get_profile_api, comment_api, bookmark_api, download_api } from '../config';
+import { signup_api, all_app_url, login_api, createApp_api, get_profile_api, comment_api, bookmark_api, download_api, rate_api } from '../config';
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -456,4 +458,39 @@ export const add_to_bookmark = (userId, appId, token) => {
             console.log(error);
         });
     };    
+};
+export const setRate = (userId, appId, rating, token) => {
+    const mytoken = 'JWT ' + token;
+    return (dispatch) => {
+        RNFetchBlob.fetch('POST', rate_api, {
+            Authorization: mytoken,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }, [
+            {
+                name: 'user',
+                data: JSON.stringify(userId)
+            },
+            {
+                name: 'app',
+                data: JSON.stringify(appId) 
+            },
+            {
+                name: 'rate',
+                data: JSON.stringify(rating)
+            }
+        ]
+        )
+        .then((data) => {
+             if (data.respInfo.status == 201) {
+                 dispatch({ type: SUCCESS_SET_RATE });
+             }
+             if (data.respInfo.status == 409) {
+                 dispatch({ type: REAPETABLE_SET_RATE });
+             }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    };
 };

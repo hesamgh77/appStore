@@ -144,7 +144,7 @@ const styles = {
     },
     popularTextStyle: {
         fontSize: 20,
-        fontWeight: '500',
+        fontWeight: '700',
         textAlign: 'center'
     }
    
