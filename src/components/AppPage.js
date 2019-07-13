@@ -6,7 +6,7 @@ import { Rating } from 'react-native-ratings';
 import { ScrollView } from 'react-native-gesture-handler';
 import RNFetchBlob from 'rn-fetch-blob';
 import { Button, CardSection, Card, Input } from './common';
-import { all_app_url, base_api, download_api } from '../config';
+import { all_app_url, base_api, download_api, rate_api } from '../config';
 import white_star from '../icon/white_star.png';
 import yellow_star from '../icon/yellow_star.png';
 import { setStar, getAllComment, update_comment_form, create_comment, add_to_bookmark, delete_all_comment, getBookmarkedApp, setRate, delete_from_bookmark } from '../actions';
@@ -15,13 +15,23 @@ class AppPage extends Component {
     state= {
         app: [],
         star: true,
-        rate: 3
+        rate: 3,
+        average_rate: null
     };
     componentWillMount() {
         this.props.delete_all_comment();
-        
         const { navigation } = this.props;
         const id = navigation.getParam('myApp', 'nothing');
+        const url = rate_api + id;
+        RNFetchBlob.fetch('GET', url, {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        })
+        .then((data) => data.json())
+        .then((res) => {
+            this.setState({ average_rate: res });
+        })
+        .catch((error) => console.log(error));
         console.log(id);
         this.props.getAllComment(id);
         if (this.props.isLogin == true && typeof this.props.userProfile[0] != 'undefined') {
@@ -276,7 +286,7 @@ class AppPage extends Component {
     render() {
         console.log("*//***/*//");
         var url=base_api+this.state.app.image;
-        console.log(this.props.allComment);
+        console.log(this.state.app);
         return (
             <ScrollView>
             <View style={styles.container}>
@@ -293,6 +303,8 @@ class AppPage extends Component {
                     <Text style={styles.SizeStyle}>{this.state.app.size} MB</Text>
                 </View>
             </View>
+            <Text style={styles.statisticStyle}>{this.state.app.download_number} Downloads</Text>
+            <Text style={styles.statisticStyle}>rating: {this.state.average_rate}</Text>
             {this.handle_star(this.props.isStarOn)}
             <View style={{ borderTopWidth: 1, marginTop: 20, borderColor: '#b4b4b4', paddingTop: 15 }}>
             <Text style={{ textAlign: 'center', fontSize: 23, fontWeight: '600', marginBottom: 5 }}>Comment</Text>
@@ -384,6 +396,11 @@ const styles = {
     },
     commentContainer: {
         marginTop: 35
+    },
+    statisticStyle: {
+        marginTop: 10,
+        textAlign: 'center',
+        fontSize: 20
     }
 };
 //export default AppPage;
