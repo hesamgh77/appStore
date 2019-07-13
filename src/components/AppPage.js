@@ -4,10 +4,10 @@ import { FlatList, Text, View, TouchableOpacity, Image } from 'react-native';
 import { connect } from 'react-redux';
 import RNFetchBlob from 'rn-fetch-blob';
 import { Button, CardSection, Card, Input } from './common';
-import { all_app_url, base_api } from '../config';
+import { all_app_url, base_api, download_api } from '../config';
 import white_star from '../icon/white_star.png';
 import yellow_star from '../icon/yellow_star.png';
-import { setStar, getAllComment, update_comment_form, create_comment, add_to_bookmark, delete_all_comment } from '../actions';
+import { setStar, getAllComment, update_comment_form, create_comment, add_to_bookmark, delete_all_comment, getBookmarkedApp } from '../actions';
 import { ScrollView } from 'react-native-gesture-handler';
 
 class AppPage extends Component {
@@ -51,6 +51,32 @@ class AppPage extends Component {
         const url = base_api + this.state.app.apk_file;
         console.log(url);       
         const new_name = RNFetchBlob.fs.dirs.SDCardDir + `/${nameOfApp}.apk`;
+        const { navigation } = this.props;
+        const appId = navigation.getParam('myApp', 'nothing');
+        var profile_user = this.props.userProfile[0];
+        var userId = profile_user.id;
+        const mytoken = 'JWT ' + this.props.token;
+        RNFetchBlob.fetch('POST', download_api, {
+            Authorization: mytoken,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            
+        }, 
+        [
+            {
+                name: 'app',
+                data: JSON.stringify(appId)
+            },
+            {
+                name: 'user',
+                data: JSON.stringify(userId)
+            }
+        ]
+        )
+        .then((data) => data.json())
+        .then((res) => console.log(res))
+        .catch((error) => console.log(error))
+        ;
         RNFetchBlob
             .config(
                 {
@@ -86,7 +112,6 @@ class AppPage extends Component {
             })
             .then((res) => {
             console.log('hessam');
-            // the temp file path
             console.log('The file saved to ', res.path());
             })
             .catch((error) => console.log(error));
@@ -117,6 +142,12 @@ class AppPage extends Component {
             //console.log(profile_user);
             if (star) {
                 return (
+                <View>
+                <CardSection style={styles.cardSectionStyle}>
+                    <Button onPress={() => this.handleChange(this.state.app.name)}>   
+                        Download
+                    </Button>     
+                </CardSection>
                 <TouchableOpacity onPress={() => this.props.add_to_bookmark(userId, appId, this.props.token)}>
                 <View style={styles.starViewStyle}>
                     <Image 
@@ -125,9 +156,16 @@ class AppPage extends Component {
                     />
                 </View>
                 </TouchableOpacity>
+                </View>
                 );
             }
             return (
+                <View>
+                <CardSection style={styles.cardSectionStyle}>
+                    <Button onPress={() => this.handleChange(this.state.app.name)}>   
+                        Download
+                    </Button>     
+                </CardSection>
                 <TouchableOpacity onPress={() => this.props.add_to_bookmark(userId, appId, this.props.token)}>
                 <View style={styles.starViewStyle}>
                     <Image 
@@ -136,6 +174,7 @@ class AppPage extends Component {
                     />
                 </View>
                 </TouchableOpacity>
+                </View>
             );
         } else {
             return (null);
@@ -208,11 +247,6 @@ class AppPage extends Component {
                 </View>
             </View>
             {this.handle_star(this.props.isStarOn)}
-            <CardSection style={styles.cardSectionStyle}>
-                <Button onPress={() => this.handleChange(this.state.app.name)}>   
-                    Download
-                </Button>     
-            </CardSection>
             {this.renderCommentForm()}
             {this.showComments()}
             </ScrollView>
@@ -295,7 +329,8 @@ const mapStateToProps = state => {
         comment: state.commentReducer.comment,
         userProfile: state.profileUser.userProfile,
         token: state.loginUser.token,
-        isLogin: state.loginUser.isLogin
+        isLogin: state.loginUser.isLogin,
+        bookmarkedApp: state.bookmarkReducer.bookmarkedApp
     };
 };
-export default connect(mapStateToProps, { setStar, getAllComment, update_comment_form, create_comment, add_to_bookmark, delete_all_comment })(AppPage);
+export default connect(mapStateToProps, { setStar, getAllComment, update_comment_form, create_comment, add_to_bookmark, delete_all_comment, getBookmarkedApp })(AppPage);

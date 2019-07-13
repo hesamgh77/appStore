@@ -21,6 +21,7 @@ import { FORM_UPDATE,  //appReducer.js
     GET_ALL_APP,   //allAppReducer.js
     UPDATE_PROFILE,
     UPDATE_HOME_PAGE,
+    GET_POPULAR_APP,
 
     ONSTAR,
     OFFSTAR,
@@ -34,7 +35,7 @@ import { FORM_UPDATE,  //appReducer.js
     GET_ALL_BOOKMARKED,
     ADD_TO_BOOKMARK
 } from './types';
-import { signup_api, all_app_url, login_api, createApp_api, get_profile_api, comment_api, bookmark_api } from '../config';
+import { signup_api, all_app_url, login_api, createApp_api, get_profile_api, comment_api, bookmark_api, download_api } from '../config';
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -243,7 +244,6 @@ export const login = (username, password, navigation) => {
                     .then((data) => {
                         console.log(data);
                         dispatch({ type: UPDATE_PROFILE, payload: data });
-                        
                     })
                     .catch((err) => {
                         dispatch({ type: LOGIN_FAIL });
@@ -283,6 +283,22 @@ export const getAllApp = () => {
 };
 export const update_home_page = () => {
     return { type: UPDATE_HOME_PAGE };
+};
+
+export const getPopularApp = () => {
+    return (dispatch) => {
+        RNFetchBlob.fetch('GET', download_api, {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        })
+        .then((data) => data.json())
+        .then((res) => {
+            console.log("*******");
+            console.log(res); 
+            dispatch({ type: GET_POPULAR_APP, payload: res });
+        })
+        .catch((error) => console.log(error));
+    };
 };
 //////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////CommentReducer.js & AppPage.js

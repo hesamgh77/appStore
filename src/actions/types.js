@@ -26,6 +26,8 @@ export const SIGN_OUT = 'signout';
 //* Show HomePage ------> allAppReducer.js &&&&& actions > index.js
 export const GET_ALL_APP = 'get_all_app';
 export const UPDATE_HOME_PAGE = 'update_home_page';
+export const GET_POPULAR_APP = 'get_popular_app';
+
 ////////////////////////////////////////////////////////////
 
 //*Bookmark ------> bookmarkReducer.js &&&&&&&&& actions.index.js

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { FlatList, Text } from 'react-native';
+import { FlatList, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import axios from 'axios';
 //import fetch from 'react-native-fetch';
 //import { List, ListItem} from 'react-native-elements';
 import AppDetail from './AppDetail';
+import RowDetail from './RowDetail';
 import { all_app_url } from '../config';
-import { getAllApp } from '../actions';
+import { getAllApp, getPopularApp } from '../actions';
 
 class AppList extends Component {
     static navigationOptions = {
@@ -32,9 +33,10 @@ class AppList extends Component {
     state={
         apiApp: []
     };
-    
     componentWillMount() {
         this.props.getAllApp();
+        this.props.getPopularApp();
+        //this.props.getPopularApp();
     }
     keyExtractor = (item) => item.id;
     /*constructor() {
@@ -80,6 +82,11 @@ class AppList extends Component {
             <AppDetail myapp={myapp} navigation={this.props.navigation} />
         );
     }
+    renderRow(myapp) {
+        return (
+            <RowDetail myapp={myapp} navigation={this.props.navigation} />
+        );
+    }
     render() {
         //console.log(this.props.apiapp);
         //console.log(this.props.apiapp.length);
@@ -90,6 +97,7 @@ class AppList extends Component {
             return (null);
         }
         return (
+        <View style={{flex: 1}}>
             <FlatList 
                 style={styles.container}
                 columnWrapperStyle={styles.heasm}
@@ -101,6 +109,19 @@ class AppList extends Component {
                 this.renderApp(item)
             }
             />
+            <Text style={styles.popularTextStyle}>Popular App</Text>
+            <FlatList 
+                style={styles.popularContainer}
+                //data={this.state.apiApp}
+                data={this.props.popularApp}
+                horizontal='true'
+                keyExtractor={this.keyExtractor}
+                renderItem={({ item }) =>
+                this.renderRow(item)
+            }
+            />
+        </View>
+
         ); 
     }
 
@@ -110,18 +131,30 @@ const styles = {
     container: {
         flex: 1,
         paddingTop: 22,
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        marginBottom: 40
        },
     hesam: {
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    popularContainer: {
+        flex: 1,
+        backgroundColor: 'white'
+    },
+    popularTextStyle: {
+        fontSize: 20,
+        fontWeight: '500',
+        textAlign: 'center'
     }
    
 };
 const mapStateToProps = state => {
     return {
-        apiapp: state.allApp.apiApp
+        apiapp: state.allApp.apiApp,
+        token: state.loginUser.token,
+        popularApp: state.allApp.popularApp
     };
 };
 //export default AppList;
-export default connect(mapStateToProps, { getAllApp })(AppList); 
+export default connect(mapStateToProps, { getAllApp, getPopularApp })(AppList); 
