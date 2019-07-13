@@ -23,8 +23,6 @@ import { FORM_UPDATE,  //appReducer.js
     UPDATE_HOME_PAGE,
     GET_POPULAR_APP,
 
-    ONSTAR,
-    OFFSTAR,
     SUCCESS_SET_RATE,
     REAPETABLE_SET_RATE,
 
@@ -34,6 +32,8 @@ import { FORM_UPDATE,  //appReducer.js
     CREATE_COMMENT,
     DELETE_ALL_COMMENT,
 
+    ONSTAR,
+    OFFSTAR,
     GET_ALL_BOOKMARKED,
     ADD_TO_BOOKMARK
 } from './types';
@@ -409,12 +409,51 @@ export const delete_all_comment = () => {
     return { type: DELETE_ALL_COMMENT };
 };
 /////////////////////////////*Bookmark // bookmarkReducer.js
-export const setStar = (isStarOn) => {
+export const setStar = (userId, appId, token) => {
+    const url = bookmark_api + userId + '/' + appId;
+    console.log(url);
+    const mytoken = 'JWT ' + token;
+    return (dispatch) => {
+    RNFetchBlob.fetch('GET', url, {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: mytoken
+    })
+    .then((data) => data.json())
+    .then((res)=> {
+        console.log(res);
+        if (res == 'True') {
+            dispatch({ type: ONSTAR }); 
+        } else {
+            dispatch({ type: OFFSTAR });
+        }
+    })
+    .catch((error) => console.log(error));
+    };
+    /*
     if (isStarOn) {
         return { type: ONSTAR };
     } else {
         return { type: OFFSTAR };
     }
+    */
+};
+export const delete_from_bookmark = (userId, appId, token) => {
+    const url = bookmark_api + userId + '/' + appId + '/';
+    console.log(url);
+    const mytoken = 'JWT ' + token;
+    return (dispatch) => {
+    RNFetchBlob.fetch('DELETE', url, {
+        Authorization: mytoken
+    })
+    .then((data) => {
+        //console.log(data);
+        //if (data.respInfo.status == 204) {
+        dispatch({ type: OFFSTAR });
+        //}
+    })
+    .catch((error) => console.log(error));
+    };
 };
 export const getBookmarkedApp = (userId, token) => {
     var url = bookmark_api + userId;

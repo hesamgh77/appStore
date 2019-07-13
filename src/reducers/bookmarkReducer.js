@@ -6,6 +6,7 @@ export default (state = INITIAL_STATE, action) => {
         case ONSTAR:
             return { ...state, isStarOn: true };
         case OFFSTAR:
+            console.log("****");
             return { ...state, isStarOn: false };
         case GET_ALL_BOOKMARKED:
             return { ...state, bookmarkedApp: action.payload };

@@ -9,7 +9,7 @@ import { Button, CardSection, Card, Input } from './common';
 import { all_app_url, base_api, download_api } from '../config';
 import white_star from '../icon/white_star.png';
 import yellow_star from '../icon/yellow_star.png';
-import { setStar, getAllComment, update_comment_form, create_comment, add_to_bookmark, delete_all_comment, getBookmarkedApp, setRate } from '../actions';
+import { setStar, getAllComment, update_comment_form, create_comment, add_to_bookmark, delete_all_comment, getBookmarkedApp, setRate, delete_from_bookmark } from '../actions';
 
 class AppPage extends Component {
     state= {
@@ -19,11 +19,14 @@ class AppPage extends Component {
     };
     componentWillMount() {
         this.props.delete_all_comment();
-        this.props.setStar(true);
+        
         const { navigation } = this.props;
         const id = navigation.getParam('myApp', 'nothing');
         console.log(id);
         this.props.getAllComment(id);
+        if (this.props.isLogin == true && typeof this.props.userProfile[0] != 'undefined') {
+            this.props.setStar(this.props.userProfile[0].id, id, this.props.token);
+        }
         console.log(this.props.allComment);
         const app_url = all_app_url + id + '/';
         fetch(app_url, {
@@ -136,6 +139,7 @@ class AppPage extends Component {
     */
     handle_star(star) {
         if (this.props.isLogin == true && typeof this.props.userProfile[0] != 'undefined') {
+
             console.log(this.props.profileUser);
             const { navigation } = this.props;
             const appId = navigation.getParam('myApp', 'nothing');
@@ -167,7 +171,7 @@ class AppPage extends Component {
                         Download
                     </Button>     
                 </CardSection>
-                <TouchableOpacity onPress={() => this.props.add_to_bookmark(userId, appId, this.props.token)}>
+                <TouchableOpacity onPress={() => this.props.delete_from_bookmark(userId, appId, this.props.token)}>
                 <View style={styles.starViewStyle}>
                     <Image 
                         style={styles.starStyle}
@@ -286,8 +290,6 @@ class AppPage extends Component {
                 </View>
             </View>
             {this.handle_star(this.props.isStarOn)}
-            
-            
             {this.renderCommentForm()}
             {this.showComments()}
             </ScrollView>
@@ -387,4 +389,4 @@ const mapStateToProps = state => {
         messageRate: state.commentReducer.messageRate
     };
 };
-export default connect(mapStateToProps, { setStar, getAllComment, update_comment_form, create_comment, add_to_bookmark, delete_all_comment, getBookmarkedApp, setRate })(AppPage);
+export default connect(mapStateToProps, { setStar, getAllComment, update_comment_form, create_comment, add_to_bookmark, delete_all_comment, getBookmarkedApp, setRate, delete_from_bookmark })(AppPage);
