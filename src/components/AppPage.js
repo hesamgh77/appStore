@@ -149,7 +149,21 @@ class AppPage extends Component {
             if (star) {
                 return (
                 <View>
-                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity onPress={() => this.props.delete_from_bookmark(userId, appId, this.props.token)}>
+                <View style={styles.starViewStyle}>
+                    <Image 
+                        style={styles.starStyle}
+                        source={yellow_star}
+                    />
+                </View>
+                </TouchableOpacity>
+                <CardSection style={styles.cardSectionStyle}>
+                    <Button onPress={() => this.handleChange(this.state.app.name)}>   
+                        <Text style={{ color: 'rgb(60, 179, 113)' }}>Download</Text>
+                    </Button>     
+                </CardSection>
+                <View style={{ borderTopWidth: 1, marginTop: 35, borderColor: '#b4b4b4', paddingTop: 15 }}>
+                <Text style={{ textAlign: 'center', fontSize: 23, fontWeight: '600', marginBottom: 5 }}>Rating</Text>
                     <Rating 
                         style={styles.RatingStyle}
                         type='star'
@@ -159,32 +173,33 @@ class AppPage extends Component {
                         showRating
                         onFinishRating={this.ratingApp}
                     />
-                    <TouchableOpacity onPress={() => this.props.setRate(userId, appId, this.state.rate, this.props.token)} style={styles.touchStyle}>
-                    <Text style={styles.textStyle}>
-                        click!
+                    <TouchableOpacity onPress={() => this.props.setRate(userId, appId, this.state.rate, this.props.token)}>
+                    <Text style={{ textAlign: 'center', marginTop: 15, fontSize: 23, color: 'rgb(60, 179, 113)' }}>
+                        rate!!
                     </Text>
                     </TouchableOpacity>
+                <Text style={{ textAlign: 'center', fontSize: 18, marginTop: 7, marginBottom: 10 }}>{this.props.messageRate}</Text>
                 </View>
-                <Text>{this.props.messageRate}</Text>
-                <CardSection style={styles.cardSectionStyle}>
-                    <Button onPress={() => this.handleChange(this.state.app.name)}>   
-                        Download
-                    </Button>     
-                </CardSection>
-                <TouchableOpacity onPress={() => this.props.delete_from_bookmark(userId, appId, this.props.token)}>
-                <View style={styles.starViewStyle}>
-                    <Image 
-                        style={styles.starStyle}
-                        source={yellow_star}
-                    />
-                </View>
-                </TouchableOpacity>
                 </View>
                 );
             }
             return (
                 <View>
-                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                    <TouchableOpacity onPress={() => this.props.add_to_bookmark(userId, appId, this.props.token)}>
+                        <View style={styles.starViewStyle}>
+                            <Image 
+                                style={styles.starStyle}
+                                source={white_star}
+                            />
+                        </View>
+                    </TouchableOpacity>
+                    <CardSection style={styles.cardSectionStyle}>
+                        <Button onPress={() => this.handleChange(this.state.app.name)}>   
+                            <Text style={{ color: 'rgb(60, 179, 113)' }}>Download</Text>
+                        </Button>     
+                    </CardSection>
+                        <View style={{ borderTopWidth: 1, marginTop: 35, borderColor: '#b4b4b4', paddingTop: 15 }}>
+                        <Text style={{ textAlign: 'center', fontSize: 23, fontWeight: '600', marginBottom: 5 }}>Rating</Text>
                         <Rating 
                                 style={styles.RatingStyle}
                                 type='star'
@@ -194,25 +209,13 @@ class AppPage extends Component {
                                 showRating
                                 onFinishRating={this.ratingApp}
                         />
-                        <TouchableOpacity style={styles.touchStyle}>
-                            <Text style={styles.textStyle}>
-                                click!
+                        <TouchableOpacity onPress={() => this.props.setRate(userId, appId, this.state.rate, this.props.token)}>
+                            <Text style={{ textAlign: 'center', marginTop: 15, fontSize: 23, color: 'rgb(60, 179, 113)' }}>
+                                rate!!
                             </Text>
                         </TouchableOpacity>
-                    </View>
-                <CardSection style={styles.cardSectionStyle}>
-                    <Button onPress={() => this.handleChange(this.state.app.name)}>   
-                        Download
-                    </Button>     
-                </CardSection>
-                <TouchableOpacity onPress={() => this.props.add_to_bookmark(userId, appId, this.props.token)}>
-                <View style={styles.starViewStyle}>
-                    <Image 
-                        style={styles.starStyle}
-                        source={white_star}
-                    />
-                </View>
-                </TouchableOpacity>
+                        <Text style={{ textAlign: 'center', fontSize: 18, marginTop: 7, marginBottom: 10 }}>{this.props.messageRate}</Text>
+                        </View>                
                 </View>
             );
         } else {
@@ -227,6 +230,7 @@ class AppPage extends Component {
         return (
             <FlatList
                 data={this.props.allComment}
+                style={styles.commentContainer}
                 numColumns='1'
                 renderItem={({ item }) =>
                 this.renderComment(item)
@@ -251,7 +255,7 @@ class AppPage extends Component {
         if (this.props.isLogin === true) {
             return (
             <View>
-            <CardSection>
+            <CardSection style={{ borderBottomWidth: 0 }}>
                 <Input
                     label="comment"
                     placeholder="your comment"
@@ -261,7 +265,7 @@ class AppPage extends Component {
             </CardSection>
             <CardSection style={styles.cardSectionStyle}>
                 <Button onPress={() => this.props.create_comment(this.props.comment, profile_user.id, appId, this.props.token)}>   
-                    confirm
+                    <Text style={{ color: 'rgb(60, 179, 113)' }}>Send</Text>
                 </Button>     
             </CardSection>
             </View>
@@ -276,7 +280,7 @@ class AppPage extends Component {
         return (
             <ScrollView>
             <View style={styles.container}>
-                <View>
+                <View style={{ flex: 1 }}>
                     <Image 
                         style={styles.imageStyle}
                         source={{ uri: url }}
@@ -290,8 +294,11 @@ class AppPage extends Component {
                 </View>
             </View>
             {this.handle_star(this.props.isStarOn)}
+            <View style={{ borderTopWidth: 1, marginTop: 20, borderColor: '#b4b4b4', paddingTop: 15 }}>
+            <Text style={{ textAlign: 'center', fontSize: 23, fontWeight: '600', marginBottom: 5 }}>Comment</Text>
             {this.renderCommentForm()}
             {this.showComments()}
+            </View>
             </ScrollView>
         );
     }
@@ -299,19 +306,22 @@ class AppPage extends Component {
 const styles = {
     containerCommentView: {
         paddingTop: 5,
-        borderTopWidth: 1,
-        borderColor: 'orange',
-        marginLeft: 25,
-        marginRight: 25
+        paddingBottom: 10,
+        borderColor: '#b4b411',
+        marginTop: 1,
+        marginLeft: 5,
+        marginRight: 5
     },
     userNameTextStyle: {
         fontSize: 20,
         fontWeight: '600',
-        color: 'orange'
+        color: 'rgb(60, 179, 113)',
+        marginLeft: 15,
+        marginBottom: 7
     },
     commentTextStyle: {
         fontSize: 17,
-        marginLeft: 25
+        marginLeft: 45
     },
     starViewStyle: {
         alignItems: 'center',
@@ -339,19 +349,20 @@ const styles = {
     DetailAppStyle: {
         //marginTop: 15,
         //marginLeft: 85,
-        paddingLeft: 70,
+        flex: 2,
         alignItems: 'center',
         justifyContent: 'center'
     },
     AppNameStyle: {
         fontSize: 25,
-        //marginBottom: 5,
         fontWeight: '600',
-        color: 'black'
+        color: 'black',
+        textAlign: 'center'
     },
     DescriptionStyle: {
         fontSize: 20,
-        color: 'green'
+        color: 'green',
+        textAlign: 'center'
     },
     SizeStyle: {
         fontSize: 15,
@@ -371,9 +382,8 @@ const styles = {
     buttonStyles: {
         alignSelf: 'none'
     },
-    touchStyle: {
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end'
+    commentContainer: {
+        marginTop: 35
     }
 };
 //export default AppPage;
