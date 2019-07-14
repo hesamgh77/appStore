@@ -8,6 +8,7 @@ import AppDetail from './AppDetail';
 import RowDetail from './RowDetail';
 import { all_app_url } from '../config';
 import { getAllApp, getPopularApp } from '../actions';
+import { ScrollView } from 'react-native-gesture-handler';
 
 class AppList extends Component {
     static navigationOptions = {
@@ -97,7 +98,7 @@ class AppList extends Component {
             return (null);
         }
         return (
-        <View style={{flex: 1}}>
+        <ScrollView style={{flex: 1}}>
             <FlatList 
                 style={styles.container}
                 columnWrapperStyle={styles.heasm}
@@ -122,7 +123,7 @@ class AppList extends Component {
                 }
                 />
             </View>
-        </View>
+        </ScrollView>
 
         ); 
     }
